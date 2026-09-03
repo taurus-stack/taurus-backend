@@ -1,0 +1,32 @@
+{
+  "executor": {
+    "dir": "/home/jwj/dev/taurus-stack/taurus-backend/app_packages/taurus-executor",
+    "prefix": "taurus-executor",
+    "ext": ".tar.gz"
+  },
+  "taurus-executor": {
+    "dir": "/home/jwj/dev/taurus-stack/taurus-backend/app_packages/taurus-executor",
+    "prefix": "taurus-executor",
+    "ext": ".tar.gz"
+  },
+  "supervisor": {
+    "dir": "/home/jwj/dev/taurus-stack/taurus-backend/app_packages/taurus-supervisor",
+    "prefix": "taurus-supervisor",
+    "ext": ""
+  },
+  "taurus-supervisor": {
+    "dir": "/home/jwj/dev/taurus-stack/taurus-backend/app_packages/taurus-supervisor",
+    "prefix": "taurus-supervisor",
+    "ext": ""
+  },
+  "monitor": {
+    "dir": "/home/jwj/dev/taurus-stack/taurus-backend/app_packages/monitor",
+    "prefix": "taurus-monitor",
+    "ext": ".tar.gz"
+  },
+  "taurus-monitor": {
+    "dir": "/home/jwj/dev/taurus-stack/taurus-backend/app_packages/monitor",
+    "prefix": "taurus-monitor",
+    "ext": ".tar.gz"
+  }
+}

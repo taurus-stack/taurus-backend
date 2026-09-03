@@ -1,0 +1,78 @@
+# ====================================================================
+# taurus-backend — Django 4.2 + dvadmin
+# ====================================================================
+
+# ========== Python ==========
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.eggs/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.tox/
+
+# ========== 🔒 SECURITY — 密钥 ==========
+certs/*.key
+certs/newcerts/
+
+# ========== 🔒 SECURITY — 凭据 ==========
+conf/env.py
+*.env
+*.env.local
+!*.env.example.py
+
+# ========== 🔒 SECURITY — License 商业版 ==========
+taurus_ee/
+
+# ========== 运行时 ==========
+nohup.out
+*.log
+logs/
+taurus/websocket.log
+
+# ========== 临时 / 调试脚本 ==========
+_debug*.py
+_dbg*.py
+_dbg*.b64
+_runtests*.py
+_run_gate*.py
+_verify*.py
+_split*.py
+_smoke*.py
+_smoke*.txt
+_official_scripts_old.py
+__check_rules*.log
+__check_rules.py
+_maintenance*.py
+main.py
+
+# scripts/ 下的临时迁移脚本
+scripts/migrate_official_scripts.py
+
+# ========== Django plugins 软链接 ==========
+plugins/taurus_ee
+
+# ========== 前端构建产物 ==========
+backend/templates/web/assets/
+backend/templates/web/index.html
+
+# ========== 数据库备份 ==========
+db/dump*.sql
+
+# ========== 构建/发布 ==========
+dist-release/
+*.spec.bak
+
+# ========== 🔒 内部文档（不公开）==========
+# PKI / 运维手册
+AUTH_INTEGRATION.md
+CERTIFICATE_REVOCATION.md
+certs/README.md
+# Edition 内部开发 / 迁移记录
+docs/ee-module-map.md
+docs/edition-dev-guide.md
+docs/m2-migration-report.md

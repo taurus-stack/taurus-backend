@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "ms-python.python", // Python 官方插件
+    "ms-python.vscode-pylance",
+    "ms-python.black-formatter"
+  ],
+  "unwantedRecommendations": [
+    "vue.volar" // 在后端文件夹里，屏蔽 Vue 插件
+  ]
+}

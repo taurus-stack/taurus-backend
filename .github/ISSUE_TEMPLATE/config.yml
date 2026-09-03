@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 安全漏洞报告
+    url: mailto:security@example.com
+    about: 发现安全漏洞？请私下报告
+  - name: 讨论区
+    url: https://github.com/taurus-stack/taurus-backend/discussions
+    about: 一般性问题和建议请在讨论区交流

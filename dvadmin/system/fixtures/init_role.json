@@ -1,0 +1,16 @@
+[
+    {
+        "name": "Admin",
+        "key": "admin",
+        "sort": 1,
+        "status": true,
+        "remark": null
+    },
+    {
+        "name": "User",
+        "key": "public",
+        "sort": 2,
+        "status": true,
+        "remark": null
+    }
+]

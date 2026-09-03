@@ -1,0 +1,239 @@
+[
+    {
+        "parent": null,
+        "title": "Basic Configuration",
+        "key": "base",
+        "value": null,
+        "sort": 0,
+        "status": true,
+        "data_options": null,
+        "form_item_type": 0,
+        "rule": null,
+        "placeholder": null,
+        "setting": null,
+        "children": [
+            {
+                "parent": 10,
+                "title": "Site Title",
+                "key": "web_title",
+                "value": "DVAdmin",
+                "sort": 1,
+                "status": true,
+                "data_options": null,
+                "form_item_type": 0,
+                "rule": [],
+                "placeholder": "Enter site title",
+                "setting": null,
+                "children": []
+            },
+            {
+                "parent": 10,
+                "title": "Site Favicon",
+                "key": "web_favicon",
+                "value": "",
+                "sort": 1,
+                "status": true,
+                "data_options": null,
+                "form_item_type": 0,
+                "rule": [],
+                "placeholder": "Enter site favicon URL",
+                "setting": null,
+                "children": []
+            },
+            {
+                "parent": 10,
+                "title": "Enable CAPTCHA",
+                "key": "captcha_state",
+                "value": true,
+                "sort": 1,
+                "status": true,
+                "data_options": null,
+                "form_item_type": 9,
+                "rule": [
+                    {
+                        "message": "This field is required",
+                        "required": true
+                    }
+                ],
+                "placeholder": "Select...",
+                "setting": null,
+                "children": []
+            },
+            {
+                "parent": 10,
+                "title": "Default User Password",
+                "key": "default_password",
+                "value": "admin123456",
+                "sort": 2,
+                "status": true,
+                "data_options": null,
+                "form_item_type": 0,
+                "rule": [
+                    {
+                        "message": "This field is required",
+                        "required": true
+                    }
+                ],
+                "placeholder": "Enter default password",
+                "setting": null,
+                "children": []
+            }
+        ]
+    },
+    {
+        "parent": null,
+        "title": "Login Page Settings",
+        "key": "login",
+        "value": null,
+        "sort": 1,
+        "status": true,
+        "data_options": null,
+        "form_item_type": 0,
+        "rule": null,
+        "placeholder": null,
+        "setting": null,
+        "children": [
+            {
+                "parent": 1,
+                "title": "Site Title",
+                "key": "site_title",
+                "value": "Dvadmin",
+                "sort": 1,
+                "status": true,
+                "data_options": null,
+                "form_item_type": 0,
+                "rule": [],
+                "placeholder": "Enter site title",
+                "setting": null,
+                "children": []
+            },
+            {
+                "parent": 1,
+                "title": "Site Name",
+                "key": "site_name",
+                "value": "Enterprise Backend Management System",
+                "sort": 1,
+                "status": true,
+                "data_options": null,
+                "form_item_type": 0,
+                "rule": [
+                    {
+                        "message": "This field is required",
+                        "required": true
+                    }
+                ],
+                "placeholder": "Enter site name",
+                "setting": null,
+                "children": []
+            },
+            {
+                "parent": 1,
+                "title": "Login Page Logo",
+                "key": "site_logo",
+                "value": null,
+                "sort": 2,
+                "status": true,
+                "data_options": null,
+                "form_item_type": 7,
+                "rule": [],
+                "placeholder": "Upload site logo",
+                "setting": null,
+                "children": []
+            },
+            {
+                "parent": 1,
+                "title": "Login Page Background",
+                "key": "login_background",
+                "value": null,
+                "sort": 3,
+                "status": true,
+                "data_options": null,
+                "form_item_type": 7,
+                "rule": [],
+                "placeholder": "Upload login page background",
+                "setting": null,
+                "children": []
+            },
+            {
+                "parent": 1,
+                "title": "Copyright Info",
+                "key": "copyright",
+                "value": "Copyright © 2021-2024 django-vue-admin.com",
+                "sort": 4,
+                "status": true,
+                "data_options": null,
+                "form_item_type": 0,
+                "rule": [
+                    {
+                        "message": "This field is required",
+                        "required": true
+                    }
+                ],
+                "placeholder": "Enter copyright text",
+                "setting": null,
+                "children": []
+            },
+            {
+                "parent": 1,
+                "title": "ICP Registration Info",
+                "key": "keep_record",
+                "value": "ICP Registration No. 18005113-3",
+                "sort": 5,
+                "status": true,
+                "data_options": null,
+                "form_item_type": 0,
+                "rule": [
+                    {
+                        "message": "This field is required",
+                        "required": true
+                    }
+                ],
+                "placeholder": "Enter ICP registration info",
+                "setting": null,
+                "children": []
+            },
+            {
+                "parent": 1,
+                "title": "Help URL",
+                "key": "help_url",
+                "value": "https://django-vue-admin.com",
+                "sort": 6,
+                "status": true,
+                "data_options": null,
+                "form_item_type": 0,
+                "rule": "",
+                "placeholder": "Enter help URL",
+                "setting": null,
+                "children": []
+            },
+            {
+                "parent": 1,
+                "title": "Privacy Policy URL",
+                "key": "privacy_url",
+                "value": "/api/system/clause/privacy.html",
+                "sort": 7,
+                "status": true,
+                "data_options": null,
+                "form_item_type": 0,
+                "rule": [],
+                "placeholder": "Enter privacy policy URL",
+                "setting": null,
+                "children": []
+            },
+            {
+                "parent": 1,
+                "title": "Terms of Service URL",
+                "key": "clause_url",
+                "value": "/api/system/clause/terms_service.html",
+                "sort": 8,
+                "status": true,
+                "data_options": null,
+                "form_item_type": 0,
+                "rule": [],
+                "placeholder": "Enter terms URL",
+                "setting": null,
+                "children": []
+            }
+        ]
+    }
+]

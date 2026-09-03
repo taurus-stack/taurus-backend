@@ -1,0 +1,64 @@
+RC=1
+
+=== STDOUT ===
+============================= test session starts ==============================
+collecting ... collected 36 items
+
+tests/test_edition_gate_api.py::TestEEViewSetListGatedOnCE::test_ee_viewset_list_returns_403_on_ce[script-check-rule] PASSED [  2%]
+tests/test_edition_gate_api.py::TestEEViewSetListGatedOnCE::test_ee_viewset_list_returns_403_on_ce[script-approve] PASSED [  5%]
+tests/test_edition_gate_api.py::TestEEViewSetListGatedOnCE::test_ee_viewset_list_returns_403_on_ce[script-approval-rule] PASSED [  8%]
+tests/test_edition_gate_api.py::TestEEViewSetListGatedOnCE::test_ee_viewset_list_returns_403_on_ce[script-approval-node] PASSED [ 11%]
+tests/test_edition_gate_api.py::TestEEViewSetListGatedOnCE::test_ee_viewset_list_returns_403_on_ce[script-approval-instance] PASSED [ 13%]
+tests/test_edition_gate_api.py::TestEEViewSetListGatedOnCE::test_ee_viewset_list_returns_403_on_ce[script-audit] PASSED [ 16%]
+tests/test_edition_gate_api.py::TestEEViewSetListGatedOnCE::test_ee_viewset_list_returns_403_on_ce[share-perm-def] PASSED [ 19%]
+tests/test_edition_gate_api.py::TestEEViewSetListGatedOnCE::test_ee_viewset_list_returns_403_on_ce[share-link] PASSED [ 22%]
+tests/test_edition_gate_api.py::TestEEViewSetListGatedOnCE::test_ee_viewset_list_returns_403_on_ce[workflow-approve] PASSED [ 25%]
+tests/test_edition_gate_api.py::TestEEViewSetListGatedOnCE::test_ee_viewset_list_returns_403_on_ce[workflow-approval-rule] PASSED [ 27%]
+tests/test_edition_gate_api.py::TestEEViewSetListGatedOnCE::test_ee_viewset_list_returns_403_on_ce[workflow-approval-node] PASSED [ 30%]
+tests/test_edition_gate_api.py::TestEEViewSetListGatedOnCE::test_ee_viewset_list_returns_403_on_ce[workflow-approval-instance] PASSED [ 33%]
+tests/test_edition_gate_api.py::TestEEViewSetListGatedOnCE::test_ee_viewset_list_returns_403_on_ce[task-center] PASSED [ 36%]
+tests/test_edition_gate_api.py::TestEEViewSetListGatedOnCE::test_ee_viewset_list_returns_403_on_ce[program-install-template] PASSED [ 38%]
+tests/test_edition_gate_api.py::TestEEViewSetListGatedOnCE::test_ee_viewset_list_returns_403_on_ce[program-host-binding] PASSED [ 41%]
+tests/test_edition_gate_api.py::TestEEViewSetListGatedOnCE::test_ee_viewset_list_returns_403_on_ce[program-install-config] PASSED [ 44%]
+tests/test_edition_gate_api.py::TestEEViewSetListGatedOnCE::test_ee_viewset_list_returns_403_on_ce[program-install-policy] PASSED [ 47%]
+tests/test_edition_gate_api.py::TestEEViewSetListGatedOnCE::test_ee_viewset_list_returns_403_on_ce[host-log] PASSED [ 50%]
+tests/test_edition_gate_api.py::TestEEViewSetListGatedOnCE::test_ee_viewset_list_returns_403_on_ce[log-command] PASSED [ 52%]
+tests/test_edition_gate_api.py::TestEEViewSetListGatedOnCE::test_ee_viewset_list_returns_403_on_ce[ops-execution-approval] PASSED [ 55%]
+tests/test_edition_gate_api.py::TestEECustomUrlsGatedOnCE::test_ee_custom_url_gated_on_ce[script-shares] FAILED [ 58%]
+
+=================================== FAILURES ===================================
+___ TestEECustomUrlsGatedOnCE.test_ee_custom_url_gated_on_ce[script-shares] ____
+tests/test_edition_gate_api.py:261: in test_ee_custom_url_gated_on_ce
+    assert status.is_success(resp.status_code) is False, (
+E   AssertionError: [P0 隔离漏洞] script-shares (ScriptViewSet.shares (M2.1), feature=F_SCRIPT_SHARING=SCRIPT_SHARING) 在 CE 下 GET 返回 HTTP 200，应当被 EditionGate 拦截。
+E   assert True is False
+E    +  where True = <function is_success at 0x72352d0d62a0>(200)
+E    +    where <function is_success at 0x72352d0d62a0> = status.is_success
+E    +    and   200 = <ErrorResponse status_code=200, "application/json">.status_code
+--------------------------- Captured stderr teardown ---------------------------
+Destroying test database for alias 'default'...
+=============================== warnings summary ===============================
+../../../../../../home/jwj/miniconda3/envs/taurus/lib/python3.12/site-packages/django/conf/__init__.py:267
+  /home/jwj/miniconda3/envs/taurus/lib/python3.12/site-packages/django/conf/__init__.py:267: RemovedInDjango50Warning: The USE_L10N setting is deprecated. Starting with Django 5.0, localized formatting of data will always be enabled. For example Django will display numbers and dates using the format of the current locale.
+    warnings.warn(USE_L10N_DEPRECATED_MSG, RemovedInDjango50Warning)
+
+../../../../../../home/jwj/miniconda3/envs/taurus/lib/python3.12/site-packages/django/conf/__init__.py:289
+  /home/jwj/miniconda3/envs/taurus/lib/python3.12/site-packages/django/conf/__init__.py:289: RemovedInDjango51Warning: The STATICFILES_STORAGE setting is deprecated. Use STORAGES instead.
+    warnings.warn(STATICFILES_STORAGE_DEPRECATED_MSG, RemovedInDjango51Warning)
+
+../../../../../../home/jwj/miniconda3/envs/taurus/lib/python3.12/site-packages/django_filters/__init__.py:9
+  /home/jwj/miniconda3/envs/taurus/lib/python3.12/site-packages/django_filters/__init__.py:9: DeprecationWarning: 'pkgutil.find_loader' is deprecated and slated for removal in Python 3.14; use importlib.util.find_spec() instead
+    if pkgutil.find_loader("rest_framework") is not None:
+
+../../../../../../home/jwj/miniconda3/envs/taurus/lib/python3.12/site-packages/captcha/conf/settings.py:55
+  /home/jwj/miniconda3/envs/taurus/lib/python3.12/site-packages/captcha/conf/settings.py:55: DeprecationWarning: CAPTCHA_OUTPUT_FORMAT setting is deprecated in favor of widget's template_name.
+    warnings.warn(msg, DeprecationWarning)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_edition_gate_api.py::TestEECustomUrlsGatedOnCE::test_ee_custom_url_gated_on_ce[script-shares]
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+============= 1 failed, 20 passed, 4 warnings in 114.69s (0:01:54) =============
+
+
+=== STDERR LAST 30 ===

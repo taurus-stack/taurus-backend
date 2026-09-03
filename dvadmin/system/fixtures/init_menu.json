@@ -1,0 +1,1403 @@
+[
+    {
+        "name": "System Management",
+        "icon": "iconfont icon-xitongshezhi",
+        "sort": 1,
+        "is_link": false,
+        "is_catalog": true,
+        "web_path": "/system",
+        "component": "",
+        "component_name": "",
+        "status": true,
+        "cache": false,
+        "visible": true,
+        "parent": null,
+        "children": [
+            {
+                "name": "Menu Management",
+                "icon": "iconfont icon-caidan",
+                "sort": 1,
+                "is_link": false,
+                "is_catalog": false,
+                "web_path": "/menu",
+                "component": "system/menu/index",
+                "component_name": "menu",
+                "status": true,
+                "cache": false,
+                "visible": true,
+                "parent": 1,
+                "children": [],
+                "menu_button": [
+                    {
+                        "name": "Search",
+                        "value": "menu:Search",
+                        "api": "/api/system/menu/",
+                        "method": 0
+                    },
+                    {
+                        "name": "Details",
+                        "value": "menu:Retrieve",
+                        "api": "/api/system/menu/{id}/",
+                        "method": 0
+                    },
+                    {
+                        "name": "Search All",
+                        "value": "menu:SearchAll",
+                        "api": "/api/system/menu/get_all_menu/",
+                        "method": 0
+                    },
+                    {
+                        "name": "Route",
+                        "value": "menu:router",
+                        "api": "/api/system/menu/web_router/",
+                        "method": 0
+                    },
+                    {
+                        "name": "Search Button Permission",
+                        "value": "btn:Search",
+                        "api": "/api/system/menu_button/",
+                        "method": 0
+                    },
+                    {
+                        "name": "Search Column Permission",
+                        "value": "column:Search",
+                        "api": "/api/system/column/",
+                        "method": 0
+                    },
+                    {
+                        "name": "Add",
+                        "value": "menu:Create",
+                        "api": "/api/system/menu/",
+                        "method": 1
+                    },
+                    {
+                        "name": "Move Up",
+                        "value": "menu:MoveUp",
+                        "api": "/api/system/menu/move_up/",
+                        "method": 1
+                    },
+                    {
+                        "name": "Move Down",
+                        "value": "menu:MoveDown",
+                        "api": "/api/system/menu/move_down/",
+                        "method": 1
+                    },
+                    {
+                        "name": "Add Button Permission",
+                        "value": "btn:Create",
+                        "api": "/api/system/menu_button/",
+                        "method": 1
+                    },
+                    {
+                        "name": "Add Column Permission",
+                        "value": "column:Create",
+                        "api": "/api/system/column/",
+                        "method": 1
+                    },
+                    {
+                        "name": "Auto-Match Column Permissions",
+                        "value": "column:Match",
+                        "api": "/api/system/column/auto_match_fields/",
+                        "method": 1
+                    },
+                    {
+                        "name": "Edit",
+                        "value": "menu:Update",
+                        "api": "/api/system/menu/{id}/",
+                        "method": 2
+                    },
+                    {
+                        "name": "Edit Button Permission",
+                        "value": "btn:Update",
+                        "api": "/api/system/menu_button/{id}/",
+                        "method": 2
+                    },
+                    {
+                        "name": "Edit Column Permission",
+                        "value": "column:Update",
+                        "api": "/api/system/column/{id}/",
+                        "method": 2
+                    },
+                    {
+                        "name": "Delete",
+                        "value": "menu:Delete",
+                        "api": "/api/system/menu/{id}/",
+                        "method": 3
+                    },
+                    {
+                        "name": "Delete Button Permission",
+                        "value": "btn:Delete",
+                        "api": "/api/system/menu_button/{id}/",
+                        "method": 3
+                    },
+                    {
+                        "name": "Delete Column Permission",
+                        "value": "column:Delete",
+                        "api": "/api/system/column/{id}/",
+                        "method": 3
+                    }
+                ],
+                "menu_field": []
+            },
+            {
+                "name": "Department Management",
+                "icon": "ele-OfficeBuilding",
+                "sort": 3,
+                "is_link": false,
+                "is_catalog": false,
+                "web_path": "/dept",
+                "component": "system/dept/index",
+                "component_name": "dept",
+                "status": true,
+                "cache": false,
+                "visible": true,
+                "parent": 1,
+                "children": [],
+                "menu_button": [
+                    {
+                        "name": "Search",
+                        "value": "dept:Search",
+                        "api": "/api/system/dept/",
+                        "method": 0
+                    },
+                    {
+                        "name": "Details",
+                        "value": "dept:Retrieve",
+                        "api": "/api/system/dept/{id}/",
+                        "method": 0
+                    },
+                    {
+                        "name": "Search All",
+                        "value": "dept:SearchAll",
+                        "api": "/api/system/dept/all_dept/",
+                        "method": 0
+                    },
+                    {
+                        "name": "Lazy Load Search All",
+                        "value": "dept:LazySearchAll",
+                        "api": "/api/system/dept/dept_lazy_tree/",
+                        "method": 0
+                    },
+                    {
+                        "name": "Header Info",
+                        "value": "dept:HeaderInfo",
+                        "api": "/api/system/dept/dept_info/",
+                        "method": 0
+                    },
+                    {
+                        "name": "Add",
+                        "value": "dept:Create",
+                        "api": "/api/system/dept/",
+                        "method": 1
+                    },
+                    {
+                        "name": "Move Up",
+                        "value": "dept:MoveUp",
+                        "api": "/api/system/dept/move_up/",
+                        "method": 1
+                    },
+                    {
+                        "name": "Move Down",
+                        "value": "dept:MoveDown",
+                        "api": "/api/system/dept/move_down/",
+                        "method": 1
+                    },
+                    {
+                        "name": "Edit",
+                        "value": "dept:Update",
+                        "api": "/api/system/dept/{id}/",
+                        "method": 2
+                    },
+                    {
+                        "name": "Delete",
+                        "value": "dept:Delete",
+                        "api": "/api/system/dept/{id}/",
+                        "method": 3
+                    }
+                ],
+                "menu_field": []
+            },
+            {
+                "name": "Role Management",
+                "icon": "ele-ColdDrink",
+                "sort": 4,
+                "is_link": false,
+                "is_catalog": false,
+                "web_path": "/role",
+                "component": "system/role/index",
+                "component_name": "role",
+                "status": true,
+                "cache": false,
+                "visible": true,
+                "parent": 1,
+                "children": [],
+                "menu_button": [
+                    {
+                        "name": "Search",
+                        "value": "role:Search",
+                        "api": "/api/system/role/",
+                        "method": 0
+                    },
+                    {
+                        "name": "Details",
+                        "value": "role:Retrieve",
+                        "api": "/api/system/role/{id}/",
+                        "method": 0
+                    },
+                    {
+                        "name": "Permission Config",
+                        "value": "role:Permission",
+                        "api": "/api/system/role/{id}/",
+                        "method": 0
+                    },
+                    {
+                        "name": "Add",
+                        "value": "role:Create",
+                        "api": "/api/system/role/",
+                        "method": 1
+                    },
+                    {
+                        "name": "Edit",
+                        "value": "role:Update",
+                        "api": "/api/system/role/{id}/",
+                        "method": 2
+                    },
+                    {
+                        "name": "Save",
+                        "value": "role:Save",
+                        "api": "/api/system/role/{id}/",
+                        "method": 2
+                    },
+                    {
+                        "name": "Delete",
+                        "value": "role:Delete",
+                        "api": "/api/system/role/{id}/",
+                        "method": 3
+                    }
+                ],
+                "menu_field": [
+                    {
+                        "field_name": "create_datetime",
+                        "title": "Created At",
+                        "model": "Role"
+                    },
+                    {
+                        "field_name": "creator",
+                        "title": "Creator",
+                        "model": "Role"
+                    },
+                    {
+                        "field_name": "dept_belong_id",
+                        "title": "Data Department",
+                        "model": "Role"
+                    },
+                    {
+                        "field_name": "description",
+                        "title": "Description",
+                        "model": "Role"
+                    },
+                    {
+                        "field_name": "id",
+                        "title": "Id",
+                        "model": "Role"
+                    },
+                    {
+                        "field_name": "key",
+                        "title": "Permission Code",
+                        "model": "Role"
+                    },
+                    {
+                        "field_name": "modifier",
+                        "title": "Modifier",
+                        "model": "Role"
+                    },
+                    {
+                        "field_name": "name",
+                        "title": "Role Name",
+                        "model": "Role"
+                    },
+                    {
+                        "field_name": "sort",
+                        "title": "Role Order",
+                        "model": "Role"
+                    },
+                    {
+                        "field_name": "status",
+                        "title": "Role Status",
+                        "model": "Role"
+                    },
+                    {
+                        "field_name": "update_datetime",
+                        "title": "Updated At",
+                        "model": "Role"
+                    }
+                ]
+            },
+            {
+                "name": "User Management",
+                "icon": "iconfont icon-icon-",
+                "sort": 6,
+                "is_link": false,
+                "is_catalog": false,
+                "web_path": "/user",
+                "component": "system/user/index",
+                "component_name": "user",
+                "status": true,
+                "cache": false,
+                "visible": true,
+                "parent": 1,
+                "children": [],
+                "menu_button": [
+                    {
+                        "name": "Search",
+                        "value": "user:Search",
+                        "api": "/api/system/user/",
+                        "method": 0
+                    },
+                    {
+                        "name": "Details",
+                        "value": "user:Retrieve",
+                        "api": "/api/system/user/{id}/",
+                        "method": 0
+                    },
+                    {
+                        "name": "Add",
+                        "value": "user:Create",
+                        "api": "/api/system/user/",
+                        "method": 1
+                    },
+                    {
+                        "name": "Export",
+                        "value": "user:Export",
+                        "api": "/api/system/user/export/",
+                        "method": 1
+                    },
+                    {
+                        "name": "Import",
+                        "value": "user:Import",
+                        "api": "/api/system/user/import/",
+                        "method": 1
+                    },
+                    {
+                        "name": "Edit",
+                        "value": "user:Update",
+                        "api": "/api/system/user/{id}/",
+                        "method": 2
+                    },
+                    {
+                        "name": "Change Password",
+                        "value": "user:ResetPassword",
+                        "api": "/api/system/user/{id}/reset_password/",
+                        "method": 2
+                    },
+                    {
+                        "name": "Reset Password",
+                        "value": "user:DefaultPassword",
+                        "api": "/api/system/user/{id}/reset_to_default_password/",
+                        "method": 2
+                    },
+                    {
+                        "name": "Delete",
+                        "value": "user:Delete",
+                        "api": "/api/system/user/{id}/",
+                        "method": 3
+                    }
+                ],
+                "menu_field": [
+                    {
+                        "field_name": "avatar",
+                        "title": "Avatar",
+                        "model": "Users"
+                    },
+                    {
+                        "field_name": "create_datetime",
+                        "title": "Created At",
+                        "model": "Users"
+                    },
+                    {
+                        "field_name": "creator",
+                        "title": "Creator",
+                        "model": "Users"
+                    },
+                    {
+                        "field_name": "dept",
+                        "title": "Department",
+                        "model": "Users"
+                    },
+                    {
+                        "field_name": "dept_belong_id",
+                        "title": "Data Department",
+                        "model": "Users"
+                    },
+                    {
+                        "field_name": "description",
+                        "title": "Description",
+                        "model": "Users"
+                    },
+                    {
+                        "field_name": "email",
+                        "title": "Email",
+                        "model": "Users"
+                    },
+                    {
+                        "field_name": "gender",
+                        "title": "Gender",
+                        "model": "Users"
+                    },
+                    {
+                        "field_name": "id",
+                        "title": "Id",
+                        "model": "Users"
+                    },
+                    {
+                        "field_name": "mobile",
+                        "title": "Phone",
+                        "model": "Users"
+                    },
+                    {
+                        "field_name": "modifier",
+                        "title": "Modifier",
+                        "model": "Users"
+                    },
+                    {
+                        "field_name": "name",
+                        "title": "Name",
+                        "model": "Users"
+                    },
+                    {
+                        "field_name": "update_datetime",
+                        "title": "Updated At",
+                        "model": "Users"
+                    },
+                    {
+                        "field_name": "username",
+                        "title": "Username",
+                        "model": "Users"
+                    },
+                    {
+                        "field_name": "user_type",
+                        "title": "User Type",
+                        "model": "Users"
+                    }
+                ]
+            },
+            {
+                "name": "Message Center",
+                "icon": "iconfont icon-xiaoxizhongxin",
+                "sort": 7,
+                "is_link": false,
+                "is_catalog": false,
+                "web_path": "/messageCenter",
+                "component": "system/messageCenter/index",
+                "component_name": "messageCenter",
+                "status": true,
+                "cache": false,
+                "visible": true,
+                "parent": 1,
+                "children": [],
+                "menu_button": [
+                    {
+                        "name": "Search",
+                        "value": "messageCenter:Search",
+                        "api": "/api/system/message_center/",
+                        "method": 0
+                    },
+                    {
+                        "name": "Details",
+                        "value": "messageCenter:Retrieve",
+                        "api": "/api/system/message_center/{id}/",
+                        "method": 0
+                    },
+                    {
+                        "name": "Add",
+                        "value": "messageCenter:Create",
+                        "api": "/api/system/message_center/",
+                        "method": 1
+                    },
+                    {
+                        "name": "Edit",
+                        "value": "messageCenter:Update",
+                        "api": "/api/system/message_center/{id}/",
+                        "method": 2
+                    },
+                    {
+                        "name": "Delete",
+                        "value": "messageCenter:Delete",
+                        "api": "/api/system/menu/{id}/",
+                        "method": 3
+                    }
+                ],
+                "menu_field": [
+                    {
+                        "field_name": "content",
+                        "title": "Content",
+                        "model": "MessageCenter"
+                    },
+                    {
+                        "field_name": "create_datetime",
+                        "title": "Created At",
+                        "model": "MessageCenter"
+                    },
+                    {
+                        "field_name": "creator",
+                        "title": "Creator",
+                        "model": "MessageCenter"
+                    },
+                    {
+                        "field_name": "dept_belong_id",
+                        "title": "Data Department",
+                        "model": "MessageCenter"
+                    },
+                    {
+                        "field_name": "description",
+                        "title": "Description",
+                        "model": "MessageCenter"
+                    },
+                    {
+                        "field_name": "id",
+                        "title": "Id",
+                        "model": "MessageCenter"
+                    },
+                    {
+                        "field_name": "modifier",
+                        "title": "Modifier",
+                        "model": "MessageCenter"
+                    },
+                    {
+                        "field_name": "target_type",
+                        "title": "Target Type",
+                        "model": "MessageCenter"
+                    },
+                    {
+                        "field_name": "title",
+                        "title": "Title",
+                        "model": "MessageCenter"
+                    },
+                    {
+                        "field_name": "update_datetime",
+                        "title": "Updated At",
+                        "model": "MessageCenter"
+                    }
+                ]
+            },
+            {
+                "name": "API Whitelist",
+                "icon": "ele-SetUp",
+                "sort": 8,
+                "is_link": false,
+                "is_catalog": false,
+                "web_path": "/apiWhiteList",
+                "component": "system/whiteList/index",
+                "component_name": "whiteList",
+                "status": true,
+                "cache": false,
+                "visible": true,
+                "parent": 1,
+                "children": [],
+                "menu_button": [
+                    {
+                        "name": "Search",
+                        "value": "api_white_list:Search",
+                        "api": "/api/system/api_white_list/",
+                        "method": 0
+                    },
+                    {
+                        "name": "Details",
+                        "value": "api_white_list:Retrieve",
+                        "api": "/api/system/api_white_list/{id}/",
+                        "method": 0
+                    },
+                    {
+                        "name": "Add",
+                        "value": "api_white_list:Create",
+                        "api": "/api/system/api_white_list/",
+                        "method": 1
+                    },
+                    {
+                        "name": "Edit",
+                        "value": "api_white_list:Update",
+                        "api": "/api/system/api_white_list/{id}/",
+                        "method": 2
+                    },
+                    {
+                        "name": "Delete",
+                        "value": "api_white_list:Delete",
+                        "api": "/api/system/api_white_list/{id}/",
+                        "method": 3
+                    }
+                ],
+                "menu_field": [
+                    {
+                        "field_name": "create_datetime",
+                        "title": "Created At",
+                        "model": "ApiWhiteList"
+                    },
+                    {
+                        "field_name": "creator",
+                        "title": "Creator",
+                        "model": "ApiWhiteList"
+                    },
+                    {
+                        "field_name": "dept_belong_id",
+                        "title": "Data Department",
+                        "model": "ApiWhiteList"
+                    },
+                    {
+                        "field_name": "description",
+                        "title": "Description",
+                        "model": "ApiWhiteList"
+                    },
+                    {
+                        "field_name": "enable_datasource",
+                        "title": "Enable Data Permissions",
+                        "model": "ApiWhiteList"
+                    },
+                    {
+                        "field_name": "id",
+                        "title": "Id",
+                        "model": "ApiWhiteList"
+                    },
+                    {
+                        "field_name": "method",
+                        "title": "API Request Method",
+                        "model": "ApiWhiteList"
+                    },
+                    {
+                        "field_name": "modifier",
+                        "title": "Modifier",
+                        "model": "ApiWhiteList"
+                    },
+                    {
+                        "field_name": "update_datetime",
+                        "title": "Updated At",
+                        "model": "ApiWhiteList"
+                    },
+                    {
+                        "field_name": "url",
+                        "title": "url",
+                        "model": "ApiWhiteList"
+                    }
+                ]
+            }
+        ],
+        "menu_button": [],
+        "menu_field": []
+    },
+    {
+        "name": "General Config",
+        "icon": "iconfont icon-configure",
+        "sort": 2,
+        "is_link": false,
+        "is_catalog": true,
+        "web_path": "/generalConfig",
+        "component": "",
+        "component_name": "",
+        "status": true,
+        "cache": false,
+        "visible": true,
+        "parent": null,
+        "children": [
+            {
+                "name": "System Configuration",
+                "icon": "iconfont icon-system",
+                "sort": 0,
+                "is_link": false,
+                "is_catalog": false,
+                "web_path": "/config",
+                "component": "system/config/index",
+                "component_name": "config",
+                "status": true,
+                "cache": false,
+                "visible": true,
+                "parent": 10,
+                "children": [],
+                "menu_button": [
+                    {
+                        "name": "Search",
+                        "value": "system_config:Search",
+                        "api": "/api/system/system_config/",
+                        "method": 0
+                    },
+                    {
+                        "name": "Details",
+                        "value": "system_config:Retrieve",
+                        "api": "/api/system/system_config/{id}/",
+                        "method": 0
+                    },
+                    {
+                        "name": "Add",
+                        "value": "system_config:Create",
+                        "api": "/api/system/system_config/",
+                        "method": 1
+                    },
+                    {
+                        "name": "Edit",
+                        "value": "system_config:Update",
+                        "api": "/api/system/system_config/{id}/",
+                        "method": 2
+                    },
+                    {
+                        "name": "Delete",
+                        "value": "system_config:Delete",
+                        "api": "/api/system/system_config/{id}/",
+                        "method": 3
+                    }
+                ],
+                "menu_field": []
+            },
+            {
+                "name": "Dictionary Management",
+                "icon": "iconfont icon-dict",
+                "sort": 1,
+                "is_link": false,
+                "is_catalog": false,
+                "web_path": "/dictionary",
+                "component": "system/dictionary/index",
+                "component_name": "dictionary",
+                "status": true,
+                "cache": false,
+                "visible": true,
+                "parent": 10,
+                "children": [],
+                "menu_button": [
+                    {
+                        "name": "Search",
+                        "value": "dictionary:Search",
+                        "api": "/api/system/dictionary/",
+                        "method": 0
+                    },
+                    {
+                        "name": "Details",
+                        "value": "dictionary:Retrieve",
+                        "api": "/api/system/dictionary/{id}/",
+                        "method": 0
+                    },
+                    {
+                        "name": "Add",
+                        "value": "dictionary:Create",
+                        "api": "/api/system/dictionary/",
+                        "method": 1
+                    },
+                    {
+                        "name": "Edit",
+                        "value": "dictionary:Update",
+                        "api": "/api/system/dictionary/{id}/",
+                        "method": 2
+                    },
+                    {
+                        "name": "Delete",
+                        "value": "dictionary:Delete",
+                        "api": "/api/system/dictionary/{id}/",
+                        "method": 3
+                    }
+                ],
+                "menu_field": [
+                    {
+                        "field_name": "color",
+                        "title": "Color",
+                        "model": "Dictionary"
+                    },
+                    {
+                        "field_name": "create_datetime",
+                        "title": "Created At",
+                        "model": "Dictionary"
+                    },
+                    {
+                        "field_name": "creator",
+                        "title": "Creator",
+                        "model": "Dictionary"
+                    },
+                    {
+                        "field_name": "dept_belong_id",
+                        "title": "Data Department",
+                        "model": "Dictionary"
+                    },
+                    {
+                        "field_name": "description",
+                        "title": "Description",
+                        "model": "Dictionary"
+                    },
+                    {
+                        "field_name": "id",
+                        "title": "Id",
+                        "model": "Dictionary"
+                    },
+                    {
+                        "field_name": "is_value",
+                        "title": "Is Value Field",
+                        "model": "Dictionary"
+                    },
+                    {
+                        "field_name": "label",
+                        "title": "Dictionary Name",
+                        "model": "Dictionary"
+                    },
+                    {
+                        "field_name": "modifier",
+                        "title": "Modifier",
+                        "model": "Dictionary"
+                    },
+                    {
+                        "field_name": "parent",
+                        "title": "Parent",
+                        "model": "Dictionary"
+                    },
+                    {
+                        "field_name": "remark",
+                        "title": "Remark",
+                        "model": "Dictionary"
+                    },
+                    {
+                        "field_name": "sort",
+                        "title": "Display Order",
+                        "model": "Dictionary"
+                    },
+                    {
+                        "field_name": "status",
+                        "title": "Status",
+                        "model": "Dictionary"
+                    },
+                    {
+                        "field_name": "type",
+                        "title": "Data Value Type",
+                        "model": "Dictionary"
+                    },
+                    {
+                        "field_name": "update_datetime",
+                        "title": "Updated At",
+                        "model": "Dictionary"
+                    },
+                    {
+                        "field_name": "value",
+                        "title": "Dictionary Code",
+                        "model": "Dictionary"
+                    }
+                ]
+            },
+            {
+                "name": "Area Management",
+                "icon": "iconfont icon-Area",
+                "sort": 2,
+                "is_link": false,
+                "is_catalog": false,
+                "web_path": "/areas",
+                "component": "system/areas/index",
+                "component_name": "areas",
+                "status": true,
+                "cache": false,
+                "visible": true,
+                "parent": 10,
+                "children": [],
+                "menu_button": [
+                    {
+                        "name": "Search",
+                        "value": "area:Search",
+                        "api": "/api/system/area/",
+                        "method": 0
+                    },
+                    {
+                        "name": "Details",
+                        "value": "area:Retrieve",
+                        "api": "/api/system/area/{id}/",
+                        "method": 0
+                    },
+                    {
+                        "name": "Add",
+                        "value": "area:Create",
+                        "api": "/api/system/area/",
+                        "method": 1
+                    },
+                    {
+                        "name": "Edit",
+                        "value": "area:Update",
+                        "api": "/api/system/area/{id}/",
+                        "method": 2
+                    },
+                    {
+                        "name": "Delete",
+                        "value": "area:Delete",
+                        "api": "/api/system/area/{id}/",
+                        "method": 3
+                    }
+                ],
+                "menu_field": [
+                    {
+                        "field_name": "code",
+                        "title": "Area Code",
+                        "model": "Area"
+                    },
+                    {
+                        "field_name": "create_datetime",
+                        "title": "Created At",
+                        "model": "Area"
+                    },
+                    {
+                        "field_name": "creator",
+                        "title": "Creator",
+                        "model": "Area"
+                    },
+                    {
+                        "field_name": "dept_belong_id",
+                        "title": "Data Department",
+                        "model": "Area"
+                    },
+                    {
+                        "field_name": "description",
+                        "title": "Description",
+                        "model": "Area"
+                    },
+                    {
+                        "field_name": "enable",
+                        "title": "Is Enabled",
+                        "model": "Area"
+                    },
+                    {
+                        "field_name": "id",
+                        "title": "Id",
+                        "model": "Area"
+                    },
+                    {
+                        "field_name": "initials",
+                        "title": "Initials",
+                        "model": "Area"
+                    },
+                    {
+                        "field_name": "level",
+                        "title": "Area Level (1=Province 2=City 3=District 4=Township)",
+                        "model": "Area"
+                    },
+                    {
+                        "field_name": "modifier",
+                        "title": "Modifier",
+                        "model": "Area"
+                    },
+                    {
+                        "field_name": "name",
+                        "title": "Name",
+                        "model": "Area"
+                    },
+                    {
+                        "field_name": "pcode",
+                        "title": "Parent Area Code",
+                        "model": "Area"
+                    },
+                    {
+                        "field_name": "pinyin",
+                        "title": "Pinyin",
+                        "model": "Area"
+                    },
+                    {
+                        "field_name": "update_datetime",
+                        "title": "Updated At",
+                        "model": "Area"
+                    }
+                ]
+            },
+            {
+                "name": "File Management",
+                "icon": "iconfont icon-file",
+                "sort": 3,
+                "is_link": false,
+                "is_catalog": false,
+                "web_path": "/file",
+                "component": "system/fileList/index",
+                "component_name": "file",
+                "status": true,
+                "cache": false,
+                "visible": true,
+                "parent": 10,
+                "children": [],
+                "menu_button": [
+                    {
+                        "name": "Details",
+                        "value": "file:Retrieve",
+                        "api": "/api/system/file/{id}/",
+                        "method": 0
+                    },
+                    {
+                        "name": "Search",
+                        "value": "file:Search",
+                        "api": "/api/system/file/",
+                        "method": 0
+                    },
+                    {
+                        "name": "Edit",
+                        "value": "file:Update",
+                        "api": "/api/system/file/{id}/",
+                        "method": 1
+                    },
+                    {
+                        "name": "Delete",
+                        "value": "file:Delete",
+                        "api": "/api/system/file/{id}/",
+                        "method": 3
+                    }
+                ],
+                "menu_field": [
+                    {
+                        "field_name": "create_datetime",
+                        "title": "Created At",
+                        "model": "FileList"
+                    },
+                    {
+                        "field_name": "creator",
+                        "title": "Creator",
+                        "model": "FileList"
+                    },
+                    {
+                        "field_name": "dept_belong_id",
+                        "title": "Data Department",
+                        "model": "FileList"
+                    },
+                    {
+                        "field_name": "description",
+                        "title": "Description",
+                        "model": "FileList"
+                    },
+                    {
+                        "field_name": "engine",
+                        "title": "Engine",
+                        "model": "FileList"
+                    },
+                    {
+                        "field_name": "file_url",
+                        "title": "File Path",
+                        "model": "FileList"
+                    },
+                    {
+                        "field_name": "id",
+                        "title": "Id",
+                        "model": "FileList"
+                    },
+                    {
+                        "field_name": "md5sum",
+                        "title": "File MD5",
+                        "model": "FileList"
+                    },
+                    {
+                        "field_name": "mime_type",
+                        "title": "Mime Type",
+                        "model": "FileList"
+                    },
+                    {
+                        "field_name": "modifier",
+                        "title": "Modifier",
+                        "model": "FileList"
+                    },
+                    {
+                        "field_name": "name",
+                        "title": "Name",
+                        "model": "FileList"
+                    },
+                    {
+                        "field_name": "size",
+                        "title": "File Size",
+                        "model": "FileList"
+                    },
+                    {
+                        "field_name": "update_datetime",
+                        "title": "Updated At",
+                        "model": "FileList"
+                    },
+                    {
+                        "field_name": "url",
+                        "title": "url",
+                        "model": "FileList"
+                    }
+                ]
+            }
+        ],
+        "menu_button": [],
+        "menu_field": []
+    },
+    {
+        "name": "Log Management",
+        "icon": "iconfont icon-rizhi",
+        "sort": 3,
+        "is_link": false,
+        "is_catalog": true,
+        "web_path": "/log",
+        "component": "",
+        "component_name": "",
+        "status": true,
+        "cache": false,
+        "visible": true,
+        "parent": null,
+        "children": [
+            {
+                "name": "Login Log",
+                "icon": "iconfont icon-guanlidenglurizhi",
+                "sort": 1,
+                "is_link": false,
+                "is_catalog": false,
+                "web_path": "/loginLog",
+                "component": "system/log/loginLog/index",
+                "component_name": "loginLog",
+                "status": true,
+                "cache": false,
+                "visible": true,
+                "parent": 15,
+                "children": [],
+                "menu_button": [
+                    {
+                        "name": "Search",
+                        "value": "login_log:Search",
+                        "api": "/api/system/login_log/",
+                        "method": 0
+                    },
+                    {
+                        "name": "Details",
+                        "value": "login_log:Retrieve",
+                        "api": "/api/system/login_log/{id}/",
+                        "method": 0
+                    }
+                ],
+                "menu_field": [
+                    {
+                        "field_name": "client",
+                        "title": "Client Info",
+                        "model": "LoginLog"
+                    },
+                    {
+                        "field_name": "area_code",
+                        "title": "Area Code",
+                        "model": "LoginLog"
+                    },
+                    {
+                        "field_name": "browser",
+                        "title": "Browser",
+                        "model": "LoginLog"
+                    },
+                    {
+                        "field_name": "city",
+                        "title": "City",
+                        "model": "LoginLog"
+                    },
+                    {
+                        "field_name": "continent",
+                        "title": "State",
+                        "model": "LoginLog"
+                    },
+                    {
+                        "field_name": "country",
+                        "title": "Country",
+                        "model": "LoginLog"
+                    },
+                    {
+                        "field_name": "country_code",
+                        "title": "Short Name",
+                        "model": "LoginLog"
+                    },
+                    {
+                        "field_name": "country_english",
+                        "title": "Full English Name",
+                        "model": "LoginLog"
+                    },
+                    {
+                        "field_name": "create_datetime",
+                        "title": "Created At",
+                        "model": "LoginLog"
+                    },
+                    {
+                        "field_name": "creator",
+                        "title": "Creator",
+                        "model": "LoginLog"
+                    },
+                    {
+                        "field_name": "dept_belong_id",
+                        "title": "Data Department",
+                        "model": "LoginLog"
+                    },
+                    {
+                        "field_name": "description",
+                        "title": "Description",
+                        "model": "LoginLog"
+                    },
+                    {
+                        "field_name": "district",
+                        "title": "District",
+                        "model": "LoginLog"
+                    },
+                    {
+                        "field_name": "id",
+                        "title": "Id",
+                        "model": "LoginLog"
+                    },
+                    {
+                        "field_name": "ip",
+                        "title": "Login IP",
+                        "model": "LoginLog"
+                    },
+                    {
+                        "field_name": "isp",
+                        "title": "Carrier",
+                        "model": "LoginLog"
+                    },
+                    {
+                        "field_name": "latitude",
+                        "title": "Latitude",
+                        "model": "LoginLog"
+                    },
+                    {
+                        "field_name": "login_type",
+                        "title": "Login Type",
+                        "model": "LoginLog"
+                    },
+                    {
+                        "field_name": "longitude",
+                        "title": "Longitude",
+                        "model": "LoginLog"
+                    },
+                    {
+                        "field_name": "modifier",
+                        "title": "Modifier",
+                        "model": "LoginLog"
+                    },
+                    {
+                        "field_name": "os",
+                        "title": "Operating System",
+                        "model": "LoginLog"
+                    },
+                    {
+                        "field_name": "province",
+                        "title": "Province",
+                        "model": "LoginLog"
+                    },
+                    {
+                        "field_name": "update_datetime",
+                        "title": "Updated At",
+                        "model": "LoginLog"
+                    },
+                    {
+                        "field_name": "username",
+                        "title": "Login Username",
+                        "model": "LoginLog"
+                    }
+                ]
+            },
+            {
+                "name": "Operation Log",
+                "icon": "iconfont icon-caozuorizhi",
+                "sort": 2,
+                "is_link": false,
+                "is_catalog": false,
+                "web_path": "/operationLog",
+                "component": "system/log/operationLog/index",
+                "component_name": "operationLog",
+                "status": true,
+                "cache": false,
+                "visible": true,
+                "parent": 15,
+                "children": [],
+                "menu_button": [
+                    {
+                        "name": "Details",
+                        "value": "operation_log:Retrieve",
+                        "api": "/api/system/operation_log/{id}/",
+                        "method": 0
+                    },
+                    {
+                        "name": "Search",
+                        "value": "operation_log:Search",
+                        "api": "/api/system/operation_log/",
+                        "method": 0
+                    }
+                ],
+                "menu_field": [
+                    {
+                        "field_name": "create_datetime",
+                        "title": "Created At",
+                        "model": "OperationLog"
+                    },
+                    {
+                        "field_name": "creator",
+                        "title": "Creator",
+                        "model": "OperationLog"
+                    },
+                    {
+                        "field_name": "dept_belong_id",
+                        "title": "Data Department",
+                        "model": "OperationLog"
+                    },
+                    {
+                        "field_name": "description",
+                        "title": "Description",
+                        "model": "OperationLog"
+                    },
+                    {
+                        "field_name": "id",
+                        "title": "Id",
+                        "model": "OperationLog"
+                    },
+                    {
+                        "field_name": "json_result",
+                        "title": "Response Body",
+                        "model": "OperationLog"
+                    },
+                    {
+                        "field_name": "modifier",
+                        "title": "Modifier",
+                        "model": "OperationLog"
+                    },
+                    {
+                        "field_name": "request_body",
+                        "title": "Request Params",
+                        "model": "OperationLog"
+                    },
+                    {
+                        "field_name": "request_browser",
+                        "title": "Request Browser",
+                        "model": "OperationLog"
+                    },
+                    {
+                        "field_name": "request_ip",
+                        "title": "Request IP",
+                        "model": "OperationLog"
+                    },
+                    {
+                        "field_name": "request_method",
+                        "title": "Request Method",
+                        "model": "OperationLog"
+                    },
+                    {
+                        "field_name": "request_modular",
+                        "title": "Request Module",
+                        "model": "OperationLog"
+                    },
+                    {
+                        "field_name": "request_msg",
+                        "title": "Operation Description",
+                        "model": "OperationLog"
+                    },
+                    {
+                        "field_name": "request_os",
+                        "title": "Operating System",
+                        "model": "OperationLog"
+                    },
+                    {
+                        "field_name": "request_path",
+                        "title": "Request URL",
+                        "model": "OperationLog"
+                    },
+                    {
+                        "field_name": "response_code",
+                        "title": "Response Code",
+                        "model": "OperationLog"
+                    },
+                    {
+                        "field_name": "status",
+                        "title": "Response Status",
+                        "model": "OperationLog"
+                    },
+                    {
+                        "field_name": "update_datetime",
+                        "title": "Updated At",
+                        "model": "OperationLog"
+                    }
+                ]
+            }
+        ],
+        "menu_button": [],
+        "menu_field": []
+    }
+]

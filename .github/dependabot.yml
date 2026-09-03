@@ -1,0 +1,30 @@
+version: 2
+updates:
+  # Python 依赖（Poetry）
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Asia/Shanghai"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "taurus-stack/maintainers"
+    labels:
+      - "dependencies"
+      - "python"
+
+  # GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Asia/Shanghai"
+    reviewers:
+      - "taurus-stack/maintainers"
+    labels:
+      - "dependencies"
+      - "github-actions"

@@ -1,0 +1,37 @@
+[ca]
+default_ca = CA_default
+
+[CA_default]
+dir = /home/jwj/dev/taurus-stack/taurus-backend/certs
+database = /home/jwj/dev/taurus-stack/taurus-backend/certs/index.txt
+serial = /home/jwj/dev/taurus-stack/taurus-backend/certs/serial
+crlnumber = /home/jwj/dev/taurus-stack/taurus-backend/certs/crlnumber
+new_certs_dir = /home/jwj/dev/taurus-stack/taurus-backend/certs/newcerts
+default_md = sha256
+default_days = 365
+default_crl_days = 365
+policy = policy_anything
+unique_subject = no
+
+[policy_anything]
+countryName = optional
+stateOrProvinceName = optional
+localityName = optional
+organizationName = optional
+organizationalUnitName = optional
+commonName = supplied
+emailAddress = optional
+
+[v3_client]
+basicConstraints = CA:FALSE
+keyUsage = digitalSignature, keyEncipherment
+extendedKeyUsage = clientAuth
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid,issuer
+
+[v3_server]
+basicConstraints = CA:FALSE
+keyUsage = digitalSignature, keyEncipherment
+extendedKeyUsage = serverAuth
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid,issuer

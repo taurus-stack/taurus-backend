@@ -1,0 +1,13 @@
+[ca]
+default_ca = CA_default
+
+[CA_default]
+dir = /home/jwj/dev/taurus-stack/taurus-backend/certs
+database = /home/jwj/dev/taurus-stack/taurus-backend/certs/index.txt
+serial = /home/jwj/dev/taurus-stack/taurus-backend/certs/crlnumber
+default_md = sha256
+default_crl_days = 365
+crl = /home/jwj/dev/taurus-stack/taurus-backend/certs/crl.pem
+
+[crl_ext]
+authorityKeyIdentifier=keyid:always

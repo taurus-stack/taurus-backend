@@ -1,0 +1,550 @@
+[
+    {
+        "label": "Enabled/Disabled (Boolean)",
+        "value": "button_status_bool",
+        "parent": null,
+        "type": 0,
+        "color": null,
+        "is_value": false,
+        "status": true,
+        "sort": 1,
+        "remark": null,
+        "children": [
+            {
+                "label": "dict.enable",
+                "value": "true",
+                "parent": 1,
+                "type": 6,
+                "color": "success",
+                "is_value": true,
+                "status": true,
+                "sort": 1,
+                "remark": null,
+                "children": []
+            },
+            {
+                "label": "dict.disable",
+                "value": "false",
+                "parent": 1,
+                "type": 6,
+                "color": "danger",
+                "is_value": true,
+                "status": true,
+                "sort": 2,
+                "remark": null,
+                "children": []
+            }
+        ]
+    },
+    {
+        "label": "System Buttons",
+        "value": "system_button",
+        "parent": null,
+        "type": 0,
+        "color": null,
+        "is_value": false,
+        "status": true,
+        "sort": 2,
+        "remark": null,
+        "children": [
+            {
+                "label": "Add",
+                "value": "Create",
+                "parent": 4,
+                "type": 0,
+                "color": "success",
+                "is_value": true,
+                "status": true,
+                "sort": 1,
+                "remark": null,
+                "children": []
+            },
+            {
+                "label": "Edit",
+                "value": "Update",
+                "parent": 4,
+                "type": 0,
+                "color": "primary",
+                "is_value": true,
+                "status": true,
+                "sort": 2,
+                "remark": null,
+                "children": []
+            },
+            {
+                "label": "Delete",
+                "value": "Delete",
+                "parent": 4,
+                "type": 0,
+                "color": "danger",
+                "is_value": true,
+                "status": true,
+                "sort": 3,
+                "remark": null,
+                "children": []
+            },
+            {
+                "label": "Details",
+                "value": "Retrieve",
+                "parent": 4,
+                "type": 0,
+                "color": "info",
+                "is_value": true,
+                "status": true,
+                "sort": 4,
+                "remark": null,
+                "children": []
+            },
+            {
+                "label": "Search",
+                "value": "Search",
+                "parent": 4,
+                "type": 0,
+                "color": "warning",
+                "is_value": true,
+                "status": true,
+                "sort": 5,
+                "remark": null,
+                "children": []
+            },
+            {
+                "label": "Save",
+                "value": "Save",
+                "parent": 4,
+                "type": 0,
+                "color": "success",
+                "is_value": true,
+                "status": true,
+                "sort": 6,
+                "remark": null,
+                "children": []
+            },
+            {
+                "label": "Import",
+                "value": "Import",
+                "parent": 4,
+                "type": 0,
+                "color": "primary",
+                "is_value": true,
+                "status": true,
+                "sort": 7,
+                "remark": null,
+                "children": []
+            },
+            {
+                "label": "Export",
+                "value": "Export",
+                "parent": 4,
+                "type": 0,
+                "color": "warning",
+                "is_value": true,
+                "status": true,
+                "sort": 8,
+                "remark": null,
+                "children": []
+            }
+        ]
+    },
+    {
+        "label": "Enabled/Disabled (Numeric)",
+        "value": "button_status_number",
+        "parent": null,
+        "type": 0,
+        "color": null,
+        "is_value": false,
+        "status": true,
+        "sort": 3,
+        "remark": null,
+        "children": [
+            {
+                "label": "dict.enable",
+                "value": "1",
+                "parent": 13,
+                "type": 1,
+                "color": "success",
+                "is_value": true,
+                "status": true,
+                "sort": 1,
+                "remark": null,
+                "children": []
+            },
+            {
+                "label": "dict.disable",
+                "value": "0",
+                "parent": 13,
+                "type": 1,
+                "color": "danger",
+                "is_value": true,
+                "status": true,
+                "sort": 2,
+                "remark": null,
+                "children": []
+            }
+        ]
+    },
+    {
+        "label": "Yes/No (Boolean)",
+        "value": "button_whether_bool",
+        "parent": null,
+        "type": 0,
+        "color": null,
+        "is_value": false,
+        "status": true,
+        "sort": 4,
+        "remark": null,
+        "children": [
+            {
+                "label": "dict.yes",
+                "value": "true",
+                "parent": 16,
+                "type": 6,
+                "color": "success",
+                "is_value": true,
+                "status": true,
+                "sort": 1,
+                "remark": null,
+                "children": []
+            },
+            {
+                "label": "dict.no",
+                "value": "false",
+                "parent": 16,
+                "type": 6,
+                "color": "danger",
+                "is_value": true,
+                "status": true,
+                "sort": 2,
+                "remark": null,
+                "children": []
+            }
+        ]
+    },
+    {
+        "label": "Yes/No (Numeric)",
+        "value": "button_whether_number",
+        "parent": null,
+        "type": 0,
+        "color": null,
+        "is_value": false,
+        "status": true,
+        "sort": 5,
+        "remark": null,
+        "children": [
+            {
+                "label": "dict.yes",
+                "value": "1",
+                "parent": 19,
+                "type": 1,
+                "color": "success",
+                "is_value": true,
+                "status": true,
+                "sort": 1,
+                "remark": null,
+                "children": []
+            },
+            {
+                "label": "dict.no",
+                "value": "2",
+                "parent": 19,
+                "type": 1,
+                "color": "danger",
+                "is_value": true,
+                "status": true,
+                "sort": 2,
+                "remark": null,
+                "children": []
+            }
+        ]
+    },
+    {
+        "label": "User Type",
+        "value": "user_type",
+        "parent": null,
+        "type": 0,
+        "color": null,
+        "is_value": false,
+        "status": true,
+        "sort": 6,
+        "remark": null,
+        "children": [
+            {
+                "label": "Backend User",
+                "value": "0",
+                "parent": 22,
+                "type": 1,
+                "color": null,
+                "is_value": true,
+                "status": true,
+                "sort": 1,
+                "remark": null,
+                "children": []
+            },
+            {
+                "label": "Frontend User",
+                "value": "1",
+                "parent": 22,
+                "type": 1,
+                "color": null,
+                "is_value": true,
+                "status": true,
+                "sort": 2,
+                "remark": null,
+                "children": []
+            }
+        ]
+    },
+    {
+        "label": "Form Type",
+        "value": "config_form_type",
+        "parent": null,
+        "type": 0,
+        "color": null,
+        "is_value": false,
+        "status": true,
+        "sort": 7,
+        "remark": null,
+        "children": [
+            {
+                "label": "text",
+                "value": "0",
+                "parent": 25,
+                "type": 1,
+                "color": null,
+                "is_value": true,
+                "status": true,
+                "sort": 0,
+                "remark": null,
+                "children": []
+            },
+            {
+                "label": "textarea",
+                "value": "3",
+                "parent": 25,
+                "type": 1,
+                "color": "",
+                "is_value": true,
+                "status": true,
+                "sort": 0,
+                "remark": null,
+                "children": []
+            },
+            {
+                "label": "number",
+                "value": "10",
+                "parent": 25,
+                "type": 1,
+                "color": "",
+                "is_value": true,
+                "status": true,
+                "sort": 0,
+                "remark": null,
+                "children": []
+            },
+            {
+                "label": "datetime",
+                "value": "1",
+                "parent": 25,
+                "type": 1,
+                "color": null,
+                "is_value": true,
+                "status": true,
+                "sort": 1,
+                "remark": null,
+                "children": []
+            },
+            {
+                "label": "date",
+                "value": "2",
+                "parent": 25,
+                "type": 1,
+                "color": null,
+                "is_value": true,
+                "status": true,
+                "sort": 2,
+                "remark": null,
+                "children": []
+            },
+            {
+                "label": "time",
+                "value": "15",
+                "parent": 25,
+                "type": 1,
+                "color": "",
+                "is_value": true,
+                "status": true,
+                "sort": 3,
+                "remark": null,
+                "children": []
+            },
+            {
+                "label": "select",
+                "value": "4",
+                "parent": 25,
+                "type": 1,
+                "color": null,
+                "is_value": true,
+                "status": true,
+                "sort": 4,
+                "remark": null,
+                "children": []
+            },
+            {
+                "label": "checkbox",
+                "value": "5",
+                "parent": 25,
+                "type": 1,
+                "color": null,
+                "is_value": true,
+                "status": true,
+                "sort": 5,
+                "remark": null,
+                "children": []
+            },
+            {
+                "label": "radio",
+                "value": "6",
+                "parent": 25,
+                "type": 1,
+                "color": null,
+                "is_value": true,
+                "status": true,
+                "sort": 6,
+                "remark": null,
+                "children": []
+            },
+            {
+                "label": "switch",
+                "value": "9",
+                "parent": 25,
+                "type": 1,
+                "color": "",
+                "is_value": true,
+                "status": true,
+                "sort": 6,
+                "remark": null,
+                "children": []
+            },
+            {
+                "label": "File Attachment",
+                "value": "8",
+                "parent": 25,
+                "type": 1,
+                "color": "",
+                "is_value": true,
+                "status": true,
+                "sort": 7,
+                "remark": null,
+                "children": []
+            },
+            {
+                "label": "Image (Single)",
+                "value": "7",
+                "parent": 25,
+                "type": 1,
+                "color": "",
+                "is_value": true,
+                "status": true,
+                "sort": 8,
+                "remark": null,
+                "children": []
+            },
+            {
+                "label": "Image (Multiple)",
+                "value": "12",
+                "parent": 25,
+                "type": 1,
+                "color": "",
+                "is_value": true,
+                "status": true,
+                "sort": 9,
+                "remark": null,
+                "children": []
+            },
+            {
+                "label": "Array",
+                "value": "11",
+                "parent": 25,
+                "type": 1,
+                "color": "",
+                "is_value": true,
+                "status": true,
+                "sort": 11,
+                "remark": null,
+                "children": []
+            },
+            {
+                "label": "Related Model",
+                "value": "13",
+                "parent": 25,
+                "type": 1,
+                "color": "",
+                "is_value": true,
+                "status": true,
+                "sort": 13,
+                "remark": null,
+                "children": []
+            },
+            {
+                "label": "Related Models (Multi)",
+                "value": "14",
+                "parent": 25,
+                "type": 1,
+                "color": "",
+                "is_value": true,
+                "status": true,
+                "sort": 14,
+                "remark": null,
+                "children": []
+            }
+        ]
+    },
+    {
+        "label": "Gender",
+        "value": "gender",
+        "parent": null,
+        "type": 0,
+        "color": null,
+        "is_value": false,
+        "status": true,
+        "sort": 8,
+        "remark": null,
+        "children": [
+            {
+                "label": "dict.genderUnknown",
+                "value": "0",
+                "parent": 42,
+                "type": 1,
+                "color": null,
+                "is_value": true,
+                "status": true,
+                "sort": 0,
+                "remark": null,
+                "children": []
+            },
+            {
+                "label": "dict.genderMale",
+                "value": "1",
+                "parent": 42,
+                "type": 1,
+                "color": null,
+                "is_value": true,
+                "status": true,
+                "sort": 1,
+                "remark": null,
+                "children": []
+            },
+            {
+                "label": "dict.genderFemale",
+                "value": "2",
+                "parent": 42,
+                "type": 1,
+                "color": null,
+                "is_value": true,
+                "status": true,
+                "sort": 2,
+                "remark": null,
+                "children": []
+            }
+        ]
+    }
+]
