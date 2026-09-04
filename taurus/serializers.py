@@ -6,19 +6,11 @@ from dvadmin.utils.serializers import CustomModelSerializer
 from dvadmin.utils.validator import CustomUniqueValidator
 from .models import (
     Workflow, WorkflowCategory, WorkflowStep, WorkflowExecution, WorkflowStepExecution,
-    WorkflowApprove,
-    WorkflowApprovalRule, WorkflowApprovalNode, WorkflowApprovalInstance, WorkflowApprovalNodeExecution,
     Host, Schedule, ScheduleExecution, RegistrationToken, HostHeartbeat,
     HeartbeatServer, ProgramInstallConfig, ProgramInstallPolicy, ProgramCommand,
-    HostLog, ManagedProgram, ProgramInstallTemplate, ProgramHostBinding,
-    LogCommand, OpsExecution, OpsExecutionApproval,
-    ScriptCategory, Script, ScriptVersion, ScriptPermission, ScriptTask,
+    ManagedProgram, ProgramInstallTemplate, ProgramHostBinding,
+    OpsExecution, ScriptCategory, Script, ScriptVersion, ScriptPermission, ScriptTask,
     ScriptTaskExecution,
-    ScriptAudit, ScriptApprove,
-    ScriptApprovalRule, ScriptApprovalNode, ScriptApprovalInstance, ScriptApprovalNodeExecution,
-    ScriptCheckRule,
-    SharePermissionDef, ScriptSharePermission, WorkflowSharePermission,
-    ShareLink, ShareLinkAccessLog,
 )
 
 
@@ -1269,6 +1261,12 @@ class ProgramInstallPolicyUpdateSerializer(CustomModelSerializer):
 # [M2.4 Thin Wrapper] Supervisor 程序管理高级 Serializers（F_PROGRAM_INSTALL_TEMPLATE /
 #  F_PROGRAM_HOST_BINDING / F_PROGRAM_INSTALL_CONFIG / F_PROGRAM_COMMAND_BATCH /
 #  F_PROGRAM_INSTALL_POLICY — EE 专属。原类名保留不动，thin pass 继承 taurus_ee.*。
+#
+# 注意：这些 Serializer 均已在上方定义了 CE 基础版本（含正确的 Meta.model）。
+# Thin Wrapper 仅在 EE 成功导入时才重新定义（继承 EE 扩展）；若 EE 缺失，
+# 必须保留原 CE 版本不变，否则继承 _EEFallbackSerializer (model=None) 会导致
+# DRF 在 get_field_info 阶段抛出 AttributeError: 'NoneType' object has no attribute '_meta'
+# （尤其是 ProgramCommandViewSet，其基础 CRUD 不走 EE Gate）。
 # ============================================================================
 try:
     from taurus_ee.serializers.supervisor_program import (
@@ -1288,7 +1286,9 @@ try:
     _EEProgramInstallPolicyCreateSerializer as _EE_PIP_CreateSer,
     _EEProgramInstallPolicyUpdateSerializer as _EE_PIP_UpdateSer,
     )
+    _EE_SUPERVISOR_PROGRAM_OK = True
 except ImportError:
+    _EE_SUPERVISOR_PROGRAM_OK = False
     from taurus.ee_fallback import _EEFallbackSerializer as _FBSer
     class _EE_PC_CreateSer(_FBSer): pass
     class _EE_PC_Ser(_FBSer): pass
@@ -1307,21 +1307,22 @@ except ImportError:
     class _EE_PIT_UpdateSer(_FBSer): pass
 
 
-class ProgramInstallTemplateSerializer(_EE_PIT_Ser): pass  # noqa: E701 Thin Wrapper
-class ProgramInstallTemplateCreateSerializer(_EE_PIT_CreateSer): pass  # noqa: E701
-class ProgramInstallTemplateUpdateSerializer(_EE_PIT_UpdateSer): pass  # noqa: E701
-class ProgramHostBindingSerializer(_EE_PHB_Ser): pass  # noqa: E701
-class ProgramHostBindingCreateSerializer(_EE_PHB_CreateSer): pass  # noqa: E701
-class ProgramHostBindingUpdateSerializer(_EE_PHB_UpdateSer): pass  # noqa: E701
-class ProgramInstallConfigSerializer(_EE_PIC_Ser): pass  # noqa: E701
-class ProgramInstallConfigCreateSerializer(_EE_PIC_CreateSer): pass  # noqa: E701
-class ProgramInstallConfigUpdateSerializer(_EE_PIC_UpdateSer): pass  # noqa: E701
-class ProgramCommandSerializer(_EE_PC_Ser): pass  # noqa: E701
-class ProgramCommandCreateSerializer(_EE_PC_CreateSer): pass  # noqa: E701
-class ProgramCommandUpdateSerializer(_EE_PC_UpdateSer): pass  # noqa: E701
-class ProgramInstallPolicySerializer(_EE_PIP_Ser): pass  # noqa: E701
-class ProgramInstallPolicyCreateSerializer(_EE_PIP_CreateSer): pass  # noqa: E701
-class ProgramInstallPolicyUpdateSerializer(_EE_PIP_UpdateSer): pass  # noqa: E701
+if _EE_SUPERVISOR_PROGRAM_OK:
+    class ProgramInstallTemplateSerializer(_EE_PIT_Ser): pass  # noqa: E701 Thin Wrapper
+    class ProgramInstallTemplateCreateSerializer(_EE_PIT_CreateSer): pass  # noqa: E701
+    class ProgramInstallTemplateUpdateSerializer(_EE_PIT_UpdateSer): pass  # noqa: E701
+    class ProgramHostBindingSerializer(_EE_PHB_Ser): pass  # noqa: E701
+    class ProgramHostBindingCreateSerializer(_EE_PHB_CreateSer): pass  # noqa: E701
+    class ProgramHostBindingUpdateSerializer(_EE_PHB_UpdateSer): pass  # noqa: E701
+    class ProgramInstallConfigSerializer(_EE_PIC_Ser): pass  # noqa: E701
+    class ProgramInstallConfigCreateSerializer(_EE_PIC_CreateSer): pass  # noqa: E701
+    class ProgramInstallConfigUpdateSerializer(_EE_PIC_UpdateSer): pass  # noqa: E701
+    class ProgramCommandSerializer(_EE_PC_Ser): pass  # noqa: E701
+    class ProgramCommandCreateSerializer(_EE_PC_CreateSer): pass  # noqa: E701
+    class ProgramCommandUpdateSerializer(_EE_PC_UpdateSer): pass  # noqa: E701
+    class ProgramInstallPolicySerializer(_EE_PIP_Ser): pass  # noqa: E701
+    class ProgramInstallPolicyCreateSerializer(_EE_PIP_CreateSer): pass  # noqa: E701
+    class ProgramInstallPolicyUpdateSerializer(_EE_PIP_UpdateSer): pass  # noqa: E701
 
 
 # ------------------ [M2.5 Thin Wrapper] HostLog & LogCommand (log center EE) ------------------
