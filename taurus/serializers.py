@@ -834,18 +834,34 @@ class WorkflowExecuteSerializer(serializers.Serializer):
 
 
 # [M2.2 Thin Wrapper] WorkflowDAGVersionSerializer → EE 实现
+#
+# 先提供 CE 基础版本（真实 Meta.model），否则 EE 缺失时 WorkflowViewSet.publish
+# （CE 功能，无 EE Gate）在成功返回时会访问 WorkflowDAGVersionSerializer(dag_ver).data
+# 触发 DRF get_field_info → AttributeError: 'NoneType' object has no attribute '_meta'。
+from taurus.workflow.models import WorkflowDAGVersion as _WorkflowDAGVersionModel  # noqa: E402 (circular import guard)
+class WorkflowDAGVersionSerializer(CustomModelSerializer):
+    """Workflow DAG published version serializer (CE base — EE overrides via Thin Wrapper below)."""
+    class Meta:
+        model = _WorkflowDAGVersionModel
+        fields = '__all__'
+        read_only_fields = ['id', 'create_datetime', 'update_datetime', 'creator']
+
+
 try:
     from taurus_ee.serializers.workflow_dag import (
     WorkflowDAGVersionSerializer as _EEWorkflowDAGVersionSerializer,
     )
+    _EE_WORKFLOW_DAG_SER_OK = True
 except ImportError:
+    _EE_WORKFLOW_DAG_SER_OK = False
     from taurus.ee_fallback import _EEFallbackSerializer as _FBSer
     class _EEWorkflowDAGVersionSerializer(_FBSer): pass
 
 
-class WorkflowDAGVersionSerializer(_EEWorkflowDAGVersionSerializer):
-    """Thin wrapper — EE implementation in taurus_ee.serializers.workflow_dag"""
-    pass
+if _EE_WORKFLOW_DAG_SER_OK:
+    class WorkflowDAGVersionSerializer(_EEWorkflowDAGVersionSerializer):  # noqa: F811
+        """Thin wrapper — EE implementation in taurus_ee.serializers.workflow_dag"""
+        pass
 
 
 class WorkflowNodeExecutionSerializer(CustomModelSerializer):
@@ -1326,6 +1342,9 @@ if _EE_SUPERVISOR_PROGRAM_OK:
 
 
 # ------------------ [M2.5 Thin Wrapper] HostLog & LogCommand (log center EE) ------------------
+# 这些 Serializer 是 EE 专属功能（HostLogViewSet / LogCommandViewSet / TaskCenterViewSet
+# 等均带 dispatch EE Gate），但仍然加 _EE_OK 守卫，避免未来有人绕过 gate 直接使用
+# 时踩到 _EEFallbackSerializer 的 Meta.model=None 问题。
 try:
     from taurus_ee.serializers.log_ext_center import (
     _EEHostLogSerializer,
@@ -1341,7 +1360,9 @@ try:
     _EEBackupRestoreCenterPlaceholderSerializer,
     _EEDownloadCenterPlaceholderSerializer,
     )
+    _EE_LOG_EXT_OK = True
 except ImportError:
+    _EE_LOG_EXT_OK = False
     from taurus.ee_fallback import _EEFallbackSerializer as _FBSer
     class _EEBackupRestoreCenterPlaceholderSerializer(_FBSer): pass
     class _EEContactLeadSerializer(_FBSer): pass
@@ -1357,14 +1378,15 @@ except ImportError:
     class _EEToolsCenterPlaceholderSerializer(_FBSer): pass
 
 
-class HostLogSerializer(_EEHostLogSerializer):
-    """Thin Wrapper — EE impl: taurus_ee.serializers.log_ext_center._EEHostLogSerializer"""
-    pass
+if _EE_LOG_EXT_OK:
+    class HostLogSerializer(_EEHostLogSerializer):
+        """Thin Wrapper — EE impl: taurus_ee.serializers.log_ext_center._EEHostLogSerializer"""
+        pass
 
 
-class HostLogReceiveSerializer(_EEHostLogReceiveSerializer):
-    """Thin Wrapper — EE impl: taurus_ee.serializers.log_ext_center._EEHostLogReceiveSerializer"""
-    pass
+    class HostLogReceiveSerializer(_EEHostLogReceiveSerializer):
+        """Thin Wrapper — EE impl: taurus_ee.serializers.log_ext_center._EEHostLogReceiveSerializer"""
+        pass
 
 
 class ManagedProgramSerializer(CustomModelSerializer):
@@ -1382,19 +1404,20 @@ class ManagedProgramSerializer(CustomModelSerializer):
 
 
 
-class LogCommandSerializer(_EELogCommandSerializer):
-    """Thin Wrapper — EE impl: taurus_ee.serializers.log_ext_center._EELogCommandSerializer"""
-    pass
+if _EE_LOG_EXT_OK:
+    class LogCommandSerializer(_EELogCommandSerializer):
+        """Thin Wrapper — EE impl: taurus_ee.serializers.log_ext_center._EELogCommandSerializer"""
+        pass
 
 
-class LogCommandCreateSerializer(_EELogCommandCreateSerializer):
-    """Thin Wrapper — EE impl: taurus_ee.serializers.log_ext_center._EELogCommandCreateSerializer"""
-    pass
+    class LogCommandCreateSerializer(_EELogCommandCreateSerializer):
+        """Thin Wrapper — EE impl: taurus_ee.serializers.log_ext_center._EELogCommandCreateSerializer"""
+        pass
 
 
-class LogCommandUpdateSerializer(_EELogCommandUpdateSerializer):
-    """Thin Wrapper (NEW M2.5) — EE impl: taurus_ee.serializers.log_ext_center._EELogCommandUpdateSerializer"""
-    pass
+    class LogCommandUpdateSerializer(_EELogCommandUpdateSerializer):
+        """Thin Wrapper (NEW M2.5) — EE impl: taurus_ee.serializers.log_ext_center._EELogCommandUpdateSerializer"""
+        pass
 
 
 
@@ -1661,7 +1684,9 @@ try:
     _EEOpsExecutionApprovalCreateSerializer,
     _EEOpsExecutionApprovalActionSerializer,
     )
+    _EE_OPS_APPROVAL_OK = True
 except ImportError:
+    _EE_OPS_APPROVAL_OK = False
     from taurus.ee_fallback import _EEFallbackSerializer as _FBSer
     class _EEOpsExecutionApprovalActionSerializer(_FBSer): pass
     class _EEOpsExecutionApprovalCreateSerializer(_FBSer): pass
@@ -1669,10 +1694,11 @@ except ImportError:
     class _EEOpsExecutionApprovalSerializer(_FBSer): pass
 
 
-class OpsExecutionApprovalSerializer(_EEOpsExecutionApprovalSerializer): pass
-class OpsExecutionApprovalListSerializer(_EEOpsExecutionApprovalListSerializer): pass
-class OpsExecutionApprovalCreateSerializer(_EEOpsExecutionApprovalCreateSerializer): pass
-class OpsExecutionApprovalActionSerializer(_EEOpsExecutionApprovalActionSerializer): pass
+if _EE_OPS_APPROVAL_OK:
+    class OpsExecutionApprovalSerializer(_EEOpsExecutionApprovalSerializer): pass
+    class OpsExecutionApprovalListSerializer(_EEOpsExecutionApprovalListSerializer): pass
+    class OpsExecutionApprovalCreateSerializer(_EEOpsExecutionApprovalCreateSerializer): pass
+    class OpsExecutionApprovalActionSerializer(_EEOpsExecutionApprovalActionSerializer): pass
 
 
 # ========================== ScriptlibrarySerializationserver ==========================
@@ -2134,10 +2160,16 @@ class ScriptTaskExecutionSerializer(CustomModelSerializer):
 # Script* EE 系列 Thin Wrapper（实现在 taurus_ee.serializers.*）
 # 保留原名：taurus/urls.py + views.py 中 `from taurus.serializers import X`
 # 所有旧引用保持 0 改动。
+#
+# 防御性修复：所有 try/except 均引入 _*_OK 标志位，仅在 EE 导入成功时才重新定义类。
+# 否则不产生 class 重新定义（这些 Serializer 本就只能在 EE-gated 路径下实例化；
+# 若强行实例化会报 NameError，但这比 Meta.model=None 静默抛 AttributeError 好诊断）。
 # ================================================================
 try:
     from taurus_ee.serializers.script_audit import ScriptAuditSerializer as _EEScriptAuditSerializer
+    _EE_SCRIPT_AUDIT_OK = True
 except ImportError:
+    _EE_SCRIPT_AUDIT_OK = False
     from taurus.ee_fallback import _EEFallbackSerializer as _FBSer
     class _EEScriptAuditSerializer(_FBSer): pass
 
@@ -2149,7 +2181,9 @@ try:
     ScriptApprovalInstanceSerializer as _EEScriptApprovalInstanceSerializer,
     ScriptApprovalNodeExecutionSerializer as _EEScriptApprovalNodeExecutionSerializer,
     )
+    _EE_SCRIPT_APPROVAL_OK = True
 except ImportError:
+    _EE_SCRIPT_APPROVAL_OK = False
     from taurus.ee_fallback import _EEFallbackSerializer as _FBSer
     class _EEScriptApprovalInstanceSerializer(_FBSer): pass
     class _EEScriptApprovalNodeExecutionSerializer(_FBSer): pass
@@ -2159,7 +2193,9 @@ except ImportError:
 
 try:
     from taurus_ee.serializers.script_check import ScriptCheckRuleSerializer as _EEScriptCheckRuleSerializer
+    _EE_SCRIPT_CHECK_OK = True
 except ImportError:
+    _EE_SCRIPT_CHECK_OK = False
     from taurus.ee_fallback import _EEFallbackSerializer as _FBSer
     class _EEScriptCheckRuleSerializer(_FBSer): pass
 
@@ -2173,7 +2209,9 @@ try:
     ShareLinkActivateSerializer as _EEShareLinkActivateSerializer,
     ShareLinkAccessLogSerializer as _EEShareLinkAccessLogSerializer,
     )
+    _EE_SHARE_PERM_OK = True
 except ImportError:
+    _EE_SHARE_PERM_OK = False
     from taurus.ee_fallback import _EEFallbackSerializer as _FBSer
     class _EEScriptSharePermissionSerializer(_FBSer): pass
     class _EEShareLinkAccessLogSerializer(_FBSer): pass
@@ -2184,63 +2222,67 @@ except ImportError:
     class _EEWorkflowSharePermissionSerializer(_FBSer): pass
 
 
-class ScriptAuditSerializer(_EEScriptAuditSerializer):
-    """Thin Wrapper → taurus_ee.serializers.script_audit.ScriptAuditSerializer"""
-    pass
+if _EE_SCRIPT_AUDIT_OK:
+    class ScriptAuditSerializer(_EEScriptAuditSerializer):
+        """Thin Wrapper → taurus_ee.serializers.script_audit.ScriptAuditSerializer"""
+        pass
 
 
-class ScriptApproveSerializer(_EEScriptApproveSerializer):
-    """Thin Wrapper."""
-    pass
+if _EE_SCRIPT_APPROVAL_OK:
+    class ScriptApproveSerializer(_EEScriptApproveSerializer):
+        """Thin Wrapper."""
+        pass
 
 
-class ScriptApprovalRuleSerializer(_EEScriptApprovalRuleSerializer):
-    pass
+    class ScriptApprovalRuleSerializer(_EEScriptApprovalRuleSerializer):
+        pass
 
 
-class ScriptApprovalNodeSerializer(_EEScriptApprovalNodeSerializer):
-    pass
+    class ScriptApprovalNodeSerializer(_EEScriptApprovalNodeSerializer):
+        pass
 
 
-class ScriptApprovalInstanceSerializer(_EEScriptApprovalInstanceSerializer):
-    pass
+    class ScriptApprovalInstanceSerializer(_EEScriptApprovalInstanceSerializer):
+        pass
 
 
-class ScriptApprovalNodeExecutionSerializer(_EEScriptApprovalNodeExecutionSerializer):
-    pass
+    class ScriptApprovalNodeExecutionSerializer(_EEScriptApprovalNodeExecutionSerializer):
+        pass
 
 
-class ScriptCheckRuleSerializer(_EEScriptCheckRuleSerializer):
-    pass
+if _EE_SCRIPT_CHECK_OK:
+    class ScriptCheckRuleSerializer(_EEScriptCheckRuleSerializer):
+        pass
 
 
 # ---------------- share permission Thin Wrappers ----------------
-class SharePermissionDefSerializer(_EESharePermissionDefSerializer):
-    pass
+if _EE_SHARE_PERM_OK:
+    class SharePermissionDefSerializer(_EESharePermissionDefSerializer):
+        pass
 
 
-class ScriptSharePermissionSerializer(_EEScriptSharePermissionSerializer):
-    pass
+    class ScriptSharePermissionSerializer(_EEScriptSharePermissionSerializer):
+        pass
 
 
-class WorkflowSharePermissionSerializer(_EEWorkflowSharePermissionSerializer):
-    pass
+    class WorkflowSharePermissionSerializer(_EEWorkflowSharePermissionSerializer):
+        pass
 
 
-class SharePermissionBatchCreateSerializer(_EESharePermissionBatchCreateSerializer):
-    pass
+    class SharePermissionBatchCreateSerializer(_EESharePermissionBatchCreateSerializer):
+        pass
 
 
-class ShareLinkSerializer(_EEShareLinkSerializer):
-    pass
+    class ShareLinkSerializer(_EEShareLinkSerializer):
+        pass
 
 
-class ShareLinkActivateSerializer(_EEShareLinkActivateSerializer):
-    pass
+    class ShareLinkActivateSerializer(_EEShareLinkActivateSerializer):
+        pass
 
 
-class ShareLinkAccessLogSerializer(_EEShareLinkAccessLogSerializer):
-    pass
+    class ShareLinkAccessLogSerializer(_EEShareLinkAccessLogSerializer):
+        pass
 
 
 # ================================================================
@@ -2248,8 +2290,9 @@ class ShareLinkAccessLogSerializer(_EEShareLinkAccessLogSerializer):
 # Thin Wrapper 提前覆盖，此处不再保留，避免与继承 EE 的版本双定义。
 # 原 class ScriptApproveSerializer -> model = ScriptApprove 由 EE Meta 继承保证。
 # ================================================================
-class ScriptApproveSerializer(_EEScriptApproveSerializer):  # noqa: F811
-    """(Double re-declare 仅兼容，与上方 Thin Wrapper 等价。)"""
+if _EE_SCRIPT_APPROVAL_OK:
+    class ScriptApproveSerializer(_EEScriptApproveSerializer):  # noqa: F811
+        """(Double re-declare 仅兼容，与上方 Thin Wrapper 等价。)"""
     # 保留 Meta 注释以展示老代码模型
     # model = ScriptApprove (已在 EE 版 Meta 中定义)
     pass
@@ -2292,7 +2335,9 @@ try:
     WorkflowApprovalInstanceSerializer as _EEWorkflowApprovalInstanceSerializer,
     WorkflowApprovalNodeExecutionSerializer as _EEWorkflowApprovalNodeExecutionSerializer,
     )
+    _EE_WF_APPROVAL_OK = True
 except ImportError:
+    _EE_WF_APPROVAL_OK = False
     from taurus.ee_fallback import _EEFallbackSerializer as _FBSer
     class _EEWorkflowApprovalInstanceSerializer(_FBSer): pass
     class _EEWorkflowApprovalNodeExecutionSerializer(_FBSer): pass
@@ -2305,15 +2350,16 @@ except ImportError:
     class _EEWorkflowApproveSerializer(_FBSer): pass
 
 
-class WorkflowApproveSerializer(_EEWorkflowApproveSerializer): pass
-class WorkflowApproveCreateSerializer(_EEWorkflowApproveCreateSerializer): pass
-class WorkflowApproveApproveSerializer(_EEWorkflowApproveApproveSerializer): pass
-class WorkflowApproveRejectSerializer(_EEWorkflowApproveRejectSerializer): pass
-class WorkflowApproveCompatSerializer(_EEWorkflowApproveCompatSerializer): pass
-class WorkflowApprovalRuleSerializer(_EEWorkflowApprovalRuleSerializer): pass
-class WorkflowApprovalNodeSerializer(_EEWorkflowApprovalNodeSerializer): pass
-class WorkflowApprovalInstanceSerializer(_EEWorkflowApprovalInstanceSerializer): pass
-class WorkflowApprovalNodeExecutionSerializer(_EEWorkflowApprovalNodeExecutionSerializer): pass
+if _EE_WF_APPROVAL_OK:
+    class WorkflowApproveSerializer(_EEWorkflowApproveSerializer): pass
+    class WorkflowApproveCreateSerializer(_EEWorkflowApproveCreateSerializer): pass
+    class WorkflowApproveApproveSerializer(_EEWorkflowApproveApproveSerializer): pass
+    class WorkflowApproveRejectSerializer(_EEWorkflowApproveRejectSerializer): pass
+    class WorkflowApproveCompatSerializer(_EEWorkflowApproveCompatSerializer): pass
+    class WorkflowApprovalRuleSerializer(_EEWorkflowApprovalRuleSerializer): pass
+    class WorkflowApprovalNodeSerializer(_EEWorkflowApprovalNodeSerializer): pass
+    class WorkflowApprovalInstanceSerializer(_EEWorkflowApprovalInstanceSerializer): pass
+    class WorkflowApprovalNodeExecutionSerializer(_EEWorkflowApprovalNodeExecutionSerializer): pass
 
 
 # ============================================================
@@ -2343,7 +2389,9 @@ try:
     UnifiedScheduleStatsSerializer as _EEUnifiedScheduleStatsSerializer,
     SchedulerAlertEventSerializer as _EESchedulerAlertEventSerializer,
     )
+    _EE_SCHEDULER_HA_OK = True
 except ImportError:
+    _EE_SCHEDULER_HA_OK = False
     from taurus.ee_fallback import _EEFallbackSerializer as _FBSer
     class _EEScheduleExecutionHASerializer(_FBSer): pass
     class _EESchedulerAlertEventSerializer(_FBSer): pass
@@ -2353,62 +2401,70 @@ except ImportError:
     class _EEUnifiedScheduleStatsSerializer(_FBSer): pass
 
 
-class ScheduleExecutionHASerializer(_EEScheduleExecutionHASerializer):
-    """Thin Wrapper — EE 实现: taurus_ee.serializers.scheduler_ha"""
-    pass
+if _EE_SCHEDULER_HA_OK:
+    class ScheduleExecutionHASerializer(_EEScheduleExecutionHASerializer):
+        """Thin Wrapper — EE 实现: taurus_ee.serializers.scheduler_ha"""
+        pass
 
 
-class ScriptTaskExecutionUnifiedSerializer(_EEScriptTaskExecutionUnifiedSerializer):
-    """Thin Wrapper — EE 实现: taurus_ee.serializers.scheduler_ha"""
-    pass
+    class ScriptTaskExecutionUnifiedSerializer(_EEScriptTaskExecutionUnifiedSerializer):
+        """Thin Wrapper — EE 实现: taurus_ee.serializers.scheduler_ha"""
+        pass
 
 
-class SchedulerAlertRuleSerializer(_EESchedulerAlertRuleSerializer):
-    """Thin Wrapper — EE 实现: taurus_ee.serializers.scheduler_ha"""
-    pass
+    class SchedulerAlertRuleSerializer(_EESchedulerAlertRuleSerializer):
+        """Thin Wrapper — EE 实现: taurus_ee.serializers.scheduler_ha"""
+        pass
 
 
-class UnifiedScheduleListRequestSerializer(_EEUnifiedScheduleListRequestSerializer):
-    """Thin Wrapper — EE 实现: taurus_ee.serializers.scheduler_ha"""
-    pass
+    class UnifiedScheduleListRequestSerializer(_EEUnifiedScheduleListRequestSerializer):
+        """Thin Wrapper — EE 实现: taurus_ee.serializers.scheduler_ha"""
+        pass
 
 
-class UnifiedScheduleStatsSerializer(_EEUnifiedScheduleStatsSerializer):
-    """Thin Wrapper — EE 实现: taurus_ee.serializers.scheduler_ha"""
-    pass
+    class UnifiedScheduleStatsSerializer(_EEUnifiedScheduleStatsSerializer):
+        """Thin Wrapper — EE 实现: taurus_ee.serializers.scheduler_ha"""
+        pass
 
 
-class SchedulerAlertEventSerializer(_EESchedulerAlertEventSerializer):
-    """Thin Wrapper — EE 实现: taurus_ee.serializers.scheduler_ha"""
-    pass
+    class SchedulerAlertEventSerializer(_EESchedulerAlertEventSerializer):
+        """Thin Wrapper — EE 实现: taurus_ee.serializers.scheduler_ha"""
+        pass
 
 
-class ContactLeadSerializer(_EEContactLeadSerializer):
-    """Thin Wrapper — EE impl: taurus_ee.serializers.log_ext_center._EEContactLeadSerializer"""
-    pass
+# ContactLead & 6 Placeholder 与 M2.5 log_ext_center 同组导入，共用 _EE_LOG_EXT_OK
+if _EE_LOG_EXT_OK:
+    class TaskCenterItemSerializer(_EETaskCenterItemSerializer):
+        """Thin Wrapper — EE impl: taurus_ee.serializers.log_ext_center._EETaskCenterItemSerializer"""
+        pass
 
 
-# -------- 6 extension center placeholder Ser (M2.5 EE 空壳) --------
-class KnowledgeBasePlaceholderSerializer(_EEKnowledgeBasePlaceholderSerializer):
-    """Thin Wrapper — 知识库占位（M2.5 EE 空壳）"""
-    pass
+    class ContactLeadSerializer(_EEContactLeadSerializer):
+        """Thin Wrapper — EE impl: taurus_ee.serializers.log_ext_center._EEContactLeadSerializer"""
+        pass
 
 
-class InspectionCenterPlaceholderSerializer(_EEInspectionCenterPlaceholderSerializer):
-    """Thin Wrapper — 巡检中心占位（M2.5 EE 空壳）"""
-    pass
+    # -------- 6 extension center placeholder Ser (M2.5 EE 空壳) --------
+    class KnowledgeBasePlaceholderSerializer(_EEKnowledgeBasePlaceholderSerializer):
+        """Thin Wrapper — 知识库占位（M2.5 EE 空壳）"""
+        pass
 
 
-class ToolsCenterPlaceholderSerializer(_EEToolsCenterPlaceholderSerializer):
-    """Thin Wrapper — 工具中心占位（M2.5 EE 空壳）"""
-    pass
+    class InspectionCenterPlaceholderSerializer(_EEInspectionCenterPlaceholderSerializer):
+        """Thin Wrapper — 巡检中心占位（M2.5 EE 空壳）"""
+        pass
 
 
-class BackupRestoreCenterPlaceholderSerializer(_EEBackupRestoreCenterPlaceholderSerializer):
-    """Thin Wrapper — 备份恢复中心占位（M2.5 EE 空壳）"""
-    pass
+    class ToolsCenterPlaceholderSerializer(_EEToolsCenterPlaceholderSerializer):
+        """Thin Wrapper — 工具中心占位（M2.5 EE 空壳）"""
+        pass
 
 
-class DownloadCenterPlaceholderSerializer(_EEDownloadCenterPlaceholderSerializer):
-    """Thin Wrapper — 客户端打包下载中心占位（M2.5 EE 空壳）"""
-    pass
+    class BackupRestoreCenterPlaceholderSerializer(_EEBackupRestoreCenterPlaceholderSerializer):
+        """Thin Wrapper — 备份恢复中心占位（M2.5 EE 空壳）"""
+        pass
+
+
+    class DownloadCenterPlaceholderSerializer(_EEDownloadCenterPlaceholderSerializer):
+        """Thin Wrapper — 客户端打包下载中心占位（M2.5 EE 空壳）"""
+        pass
