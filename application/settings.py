@@ -28,7 +28,31 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # ******************** Dynamic Config ******************** #
 # ================================================= #
 
-from conf.env import *
+try:
+    from conf.env import *
+except ModuleNotFoundError:
+    import logging as _lg
+    _lg.getLogger(__name__).warning(
+        "conf.env module not found, using default settings (SQLite). "
+        "Copy conf/env.example.py to conf/env.py and customize it for production use."
+    )
+    DATABASE_ENGINE = "django.db.backends.sqlite3"
+    DATABASE_NAME = os.path.join(BASE_DIR, "db.sqlite3")
+    DATABASE_USER = ""
+    DATABASE_PASSWORD = ""
+    DATABASE_HOST = ""
+    DATABASE_PORT = ""
+    TABLE_PREFIX = ""
+    REDIS_DB = 0
+    CELERY_BROKER_DB = 1
+    REDIS_PASSWORD = ""
+    REDIS_HOST = "127.0.0.1"
+    REDIS_URL = f'redis://:{REDIS_PASSWORD or ""}@{REDIS_HOST}:6379'
+    DEBUG = True
+    ENABLE_LOGIN_ANALYSIS_LOG = True
+    LOGIN_NO_CAPTCHA_AUTH = True
+    ALLOWED_HOSTS = ["*"]
+    COLUMN_EXCLUDE_APPS = []
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
