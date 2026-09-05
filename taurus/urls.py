@@ -20,6 +20,7 @@ from taurus.views import (
     ContactLeadViewSet,
     LightweightUserOptionsView,
     workflow_callback_view,
+    _WFAPP_EE_OK, _SCRIPT_EE_OK,
 )
 from taurus.views_edition import EditionInfoView, EditionFeaturesView, EditionDescribeView
 
@@ -29,11 +30,11 @@ router = SimpleRouter()
 router.register('workflow', WorkflowViewSet, basename='workflow')
 router.register('workflow-category', WorkflowCategoryViewSet, basename='workflow-category')
 router.register('workflow-execution', WorkflowExecutionViewSet, basename='workflow-execution')
-router.register('workflow-approve', WorkflowApproveViewSet, basename='workflow-approve')
-# Workflow approval rules (rule-driven approval)
-router.register('workflow-approval-rule', WorkflowApprovalRuleViewSet, basename='workflow-approval-rule')
-router.register('workflow-approval-node', WorkflowApprovalRuleNodeViewSet, basename='workflow-approval-node')
-router.register('workflow-approval-instance', WorkflowApprovalInstanceViewSet, basename='workflow-approval-instance')
+if _WFAPP_EE_OK:
+    router.register('workflow-approve', WorkflowApproveViewSet, basename='workflow-approve')
+    router.register('workflow-approval-rule', WorkflowApprovalRuleViewSet, basename='workflow-approval-rule')
+    router.register('workflow-approval-node', WorkflowApprovalRuleNodeViewSet, basename='workflow-approval-node')
+    router.register('workflow-approval-instance', WorkflowApprovalInstanceViewSet, basename='workflow-approval-instance')
 
 # Scheduled task management
 router.register('schedule', ScheduleViewSet, basename='schedule')
@@ -106,20 +107,18 @@ router.register('script-task-execution', ScriptTaskExecutionViewSet, basename='s
 # Script audit log management
 router.register('script-audit', ScriptAuditViewSet, basename='script-audit')
 
-# Script approval management
-router.register('script-approve', ScriptApproveViewSet, basename='script-approve')
-
-# Script approval rules (rule-driven approval)
-router.register('script-approval-rule', ScriptApprovalRuleViewSet, basename='script-approval-rule')
-router.register('script-approval-node', ScriptApprovalRuleNodeViewSet, basename='script-approval-node')
-router.register('script-approval-instance', ScriptApprovalInstanceViewSet, basename='script-approval-instance')
-
-# Script check rules
-router.register('script-check-rule', ScriptCheckRuleViewSet, basename='script-check-rule')
-
-# Sharing: permission dictionary & share link
-router.register('share-perm-def', SharePermissionDefViewSet, basename='share-perm-def')
-router.register('share-link', ShareLinkViewSet, basename='share-link')
+if _SCRIPT_EE_OK:
+    # Script approval management
+    router.register('script-approve', ScriptApproveViewSet, basename='script-approve')
+    # Script approval rules (rule-driven approval)
+    router.register('script-approval-rule', ScriptApprovalRuleViewSet, basename='script-approval-rule')
+    router.register('script-approval-node', ScriptApprovalRuleNodeViewSet, basename='script-approval-node')
+    router.register('script-approval-instance', ScriptApprovalInstanceViewSet, basename='script-approval-instance')
+    # Script check rules
+    router.register('script-check-rule', ScriptCheckRuleViewSet, basename='script-check-rule')
+    # Sharing: permission dictionary & share link
+    router.register('share-perm-def', SharePermissionDefViewSet, basename='share-perm-def')
+    router.register('share-link', ShareLinkViewSet, basename='share-link')
 
 # Task center (aggregate script scheduled tasks + scheduled workflows)
 router.register('task-center', TaskCenterViewSet, basename='task-center')
@@ -163,22 +162,36 @@ urlpatterns = [
     path('script/<int:pk>/effective-perms/', ScriptViewSet.as_view({'get': 'effective_perms'})),
     # Script scheduled task custom actions
     path('script-task/<int:pk>/toggle/', ScriptTaskViewSet.as_view({'post': 'toggle_enabled'})),
-    # Script approval custom actions
-    path('script-approve/<int:pk>/approve/', ScriptApproveViewSet.as_view({'post': 'approve'})),
-    path('script-approve/<int:pk>/reject/', ScriptApproveViewSet.as_view({'post': 'reject'})),
+]
+
+if _SCRIPT_EE_OK:
+    urlpatterns += [
+        # Script approval custom actions
+        path('script-approve/<int:pk>/approve/', ScriptApproveViewSet.as_view({'post': 'approve'})),
+        path('script-approve/<int:pk>/reject/', ScriptApproveViewSet.as_view({'post': 'reject'})),
+    ]
+
+urlpatterns += [
     # Workflow orchestration custom actions
     path('workflow/<int:pk>/toggle-status/', WorkflowViewSet.as_view({'post': 'toggle_status'})),
     path('workflow/<int:pk>/copy/', WorkflowViewSet.as_view({'post': 'copy_workflow'})),
     path('workflow/<int:pk>/submit-approve/', WorkflowViewSet.as_view({'post': 'submit_approve'})),
     path('workflow/<int:pk>/risk-assessment/', WorkflowViewSet.as_view({'get': 'risk_assessment', 'post': 'risk_assessment'})),
     path('workflow/stats/', WorkflowViewSet.as_view({'get': 'get_stats'})),
-    # Workflow share permission related
+    # Workflow share permission related (community 版可用)
     path('workflow/<int:pk>/shares/', WorkflowViewSet.as_view({'get': 'shares', 'post': 'shares'})),
     path('workflow/<int:pk>/shares/<int:share_id>/', WorkflowViewSet.as_view({'put': 'share_detail', 'delete': 'share_detail'})),
     path('workflow/<int:pk>/effective-perms/', WorkflowViewSet.as_view({'get': 'effective_perms'})),
-    # Workflow orchestration approval custom actions
-    path('workflow-approve/<int:pk>/approve/', WorkflowApproveViewSet.as_view({'post': 'approve'})),
-    path('workflow-approve/<int:pk>/reject/', WorkflowApproveViewSet.as_view({'post': 'reject'})),
+]
+
+if _WFAPP_EE_OK:
+    urlpatterns += [
+        # Workflow orchestration approval custom actions
+        path('workflow-approve/<int:pk>/approve/', WorkflowApproveViewSet.as_view({'post': 'approve'})),
+        path('workflow-approve/<int:pk>/reject/', WorkflowApproveViewSet.as_view({'post': 'reject'})),
+    ]
+
+urlpatterns += [
     # -------- Edition Gate (M1)：edition 能力查询 --------
     path('edition/info/', EditionInfoView.as_view()),
     path('edition/features/', EditionFeaturesView.as_view()),

@@ -2416,9 +2416,24 @@ class SchedulerAlertEventSerializer(_EESchedulerAlertEventSerializer):
     pass
 
 
-class ContactLeadSerializer(_EEContactLeadSerializer):
-    """Thin Wrapper — EE impl: taurus_ee.serializers.log_ext_center._EEContactLeadSerializer"""
-    pass
+class ContactLeadSerializer(CustomModelSerializer):
+    """Portal contact form submission serializer.
+
+    CE-compatible: this serializer is used by ContactLeadViewSet.create which
+    is NOT gated (AllowAny, anonymous portal POST). Must NOT inherit from
+    _EEFallbackSerializer (Meta.model=None) — drf-spectacular schema scan and
+    real CE traffic both need an instantiable ModelSerializer.
+
+    EE override: taurus_ee may shadow _EEContactLeadSerializer with extended
+    fields, but ContactLeadSerializer stays CE-safe as the canonical path.
+    """
+
+    class Meta:
+        from taurus.models import ContactLead
+
+        model = ContactLead
+        fields = '__all__'
+        read_only_fields = ('source', 'ip', 'user_agent', 'create_datetime', 'update_datetime')
 
 
 # -------- 6 extension center placeholder Ser (M2.5 EE 空壳) --------
