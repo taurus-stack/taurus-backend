@@ -91,7 +91,7 @@ class BaseEdition(ABC):
             "quota": self.quota,
             "license": self.license_status,
             "upgrade": {
-                "show_banner": self.edition_name == "community",
+                "show_banner": False,
                 "contact_url": "/#/taurus/contact-lead",  # 前端路由占位
             },
         }

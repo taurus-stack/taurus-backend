@@ -25,9 +25,9 @@ from __future__ import annotations
 from typing import Any, Callable, Optional
 
 from dvadmin.utils.viewset import CustomModelViewSet
-from dvadmin.utils.serializers import CustomModelSerializer
 
 from rest_framework.exceptions import PermissionDenied
+from rest_framework.serializers import Serializer
 from taurus.editions import describe_feature
 
 
@@ -51,17 +51,16 @@ class _EEFallbackViewSet(CustomModelViewSet):
 # ---------------------------------------------------------------------------
 # Serializer fallback
 # ---------------------------------------------------------------------------
-class _EEFallbackSerializer(CustomModelSerializer):
+class _EEFallbackSerializer(Serializer):
     """EE Serializer 缺失时的 fallback 父类。
 
-    在 Thin Wrapper 继承链中占位——仅用于让 Python class 定义不崩溃。
-    实际运行时 ViewSet dispatch 会先被 EditionGate / _EEFallbackViewSet
+    继承普通 Serializer（非 ModelSerializer），避免 drf-spectacular schema
+    扫描时触发 model_meta.get_field_info(None) 崩溃。
+    运行时 ViewSet dispatch 会先被 EditionGate / _EEFallbackViewSet
     拦截到 403，永远不会走到 Serializer 实例化。
     """
 
-    class Meta:
-        model = None
-        fields = []
+    pass
 
 
 # ---------------------------------------------------------------------------
