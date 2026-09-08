@@ -4294,9 +4294,10 @@ def _cl_mixed_gate(view_fn):
 class HostLogViewSet(CustomModelViewSet):
     """HostLog管理(Supervisor remoteLog转发) — EE (F_HOST_LOG_FORWARDING) 专属"""
     def dispatch(self, request, *args, **kwargs):
+        _super = super()
         @_hl_require_feature(_F_HL_LOG)
         def _inner(_req, *_a, **_kw):
-            return super().dispatch(_req, *_a, **_kw)
+            return _super.dispatch(_req, *_a, **_kw)
         return _inner(request, *args, **kwargs)
 
     queryset = HostLog.objects.all()
@@ -4423,9 +4424,10 @@ class HostLogViewSet(CustomModelViewSet):
 class LogCommandViewSet(CustomModelViewSet):
     """Log收集控制指令管理 — EE (F_LOG_COMMAND_CONTROL) 专属"""
     def dispatch(self, request, *args, **kwargs):
+        _super = super()
         @_lc_require_feature(_F_LC_CMD)
         def _inner(_req, *_a, **_kw):
-            return super().dispatch(_req, *_a, **_kw)
+            return _super.dispatch(_req, *_a, **_kw)
         return _inner(request, *args, **kwargs)
 
     queryset = LogCommand.objects.all()
@@ -6003,9 +6005,11 @@ class OpsExecutionApprovalViewSet(CustomModelViewSet):
         from taurus.editions.loader import require_feature as _ops_require_feature
         from taurus.editions.features import F_OPS_EXECUTION_APPROVAL as _F_OPS_APPROVAL
 
+        _super = super()
+
         @_ops_require_feature(_F_OPS_APPROVAL)
         def _inner(_req, *_a, **_kw):
-            return super().dispatch(_req, *_a, **_kw)
+            return _super.dispatch(_req, *_a, **_kw)
         return _inner(request, *args, **kwargs)
 
     queryset = OpsExecutionApproval.objects.all()
@@ -9261,9 +9265,10 @@ class ContactLeadViewSet(CustomModelViewSet):
         pk = kwargs.get('pk') if isinstance(kwargs, dict) else None
         if method == 'POST' and pk is None and not args:
             return super().dispatch(request, *args, **kwargs)
+        _super = super()
         @_cl_require_feature(_F_CL_GATE)
         def _inner(_req, *_a, **_kw):
-            return super().dispatch(_req, *_a, **_kw)
+            return _super.dispatch(_req, *_a, **_kw)
         return _inner(request, *args, **kwargs)
 
     from rest_framework.permissions import IsAdminUser
