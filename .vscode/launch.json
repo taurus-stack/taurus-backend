@@ -10,6 +10,11 @@
             "type": "debugpy",
             "request": "launch",
             "program": "${workspaceFolder}/manage.py",
+            "env": {
+                "DJANGO_SETTINGS_MODULE": "application.settings",
+                "TAURUS_EDITION": "enterprise",
+                "TAURUS_DEV_BYPASS_LICENSE": "1"
+            },
             "args": [
                 "runserver",
                 "0.0.0.0:8000"
