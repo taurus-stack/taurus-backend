@@ -25,6 +25,8 @@ RUN poetry install --no-interaction --no-ansi --only main --no-root
 
 COPY . .
 
+RUN if [ -f conf/env.example.py ] && [ ! -f conf/env.py ]; then cp conf/env.example.py conf/env.py; fi
+
 RUN useradd -m -u 1000 taurus \
     && chown -R taurus:taurus /app
 USER taurus
