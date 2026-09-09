@@ -27,12 +27,12 @@ class CustomUserManager(UserManager):
         user = super(CustomUserManager, self).create_superuser(username, email, password, **extra_fields)
         user.set_password(password)
         try:
-            user.role.add(Role.objects.get(name="Administrator"))
+            user.role.add(Role.objects.get(key="admin"))
             user.save(using=self._db)
             return user
         except ObjectDoesNotExist:
             user.delete()
-            raise ValidationError("Role `Administrator` does not exist, creation failed, please run python manage.py init first")
+            raise ValidationError("Role `admin` does not exist, creation failed, please run python manage.py init first")
 
 
 class Users(CoreModel, AbstractUser):

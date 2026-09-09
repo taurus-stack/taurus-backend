@@ -76,3 +76,4 @@ certs/README.md
 docs/ee-module-map.md
 docs/edition-dev-guide.md
 docs/m2-migration-report.md
+*.sql

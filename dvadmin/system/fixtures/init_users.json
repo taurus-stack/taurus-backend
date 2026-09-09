@@ -1,7 +1,7 @@
 [
     {
         "username": "superadmin",
-        "email": "dvadmin@django-vue-admin.com",
+        "email": "taurus@taurus-stack.io",
         "mobile": "13333333333",
         "avatar": null,
         "name": "Super Admin",
@@ -11,7 +11,7 @@
         "role_key": [
             "admin"
         ],
-        "dept_key": "dvadmin",
+        "dept_key": null,
         "first_name": "",
         "last_name": "",
         "is_staff": true,
@@ -19,23 +19,5 @@
         "password": "pbkdf2_sha256$260000$g17x5wlSiW1FZAh1Eudchw$ZeSAqj3Xak0io8v/pmPW0BX9EX5R2zFXDwbbD68oBFk=",
         "last_login": null,
         "is_superuser": true
-    },
-    {
-        "username": "admin",
-        "email": "dvadmin@django-vue-admin.com",
-        "mobile": "18888888888",
-        "avatar": "",
-        "name": "Admin",
-        "gender": 1,
-        "user_type": 0,
-        "role": [],
-        "dept_key": "dvadmin",
-        "first_name": "",
-        "last_name": "",
-        "is_staff": true,
-        "is_active": true,
-        "password": "pbkdf2_sha256$260000$g17x5wlSiW1FZAh1Eudchw$ZeSAqj3Xak0io8v/pmPW0BX9EX5R2zFXDwbbD68oBFk=",
-        "last_login": null,
-        "is_superuser": false
     }
 ]
