@@ -146,100 +146,21 @@ def workflow_callback_view(request, token):
         )
 
 
-# ---------- Celery Beat Scheduled task Register/Deregister (module-level functions, shared by WorkflowViewSet and ScheduleViewSet) ----------
+# ---------- Schedule task registration (taurus-scheduler polls DB directly, no Celery Beat needed) ----------
 
 logger_schedule = logging.getLogger('taurus.schedule')
 
 
 def register_schedule_to_celery(schedule):
-    """Register Schedule record to Celery Beat, return True means successful registration"""
-    try:
-        from django_celery_beat.models import PeriodicTask, CrontabSchedule, IntervalSchedule
-        from taurus.tasks import execute_schedule_task
-
-        PeriodicTask.objects.filter(name=f'schedule_{schedule.id}').delete()
-
-        if schedule.status != 1:
-            return False
-
-        if schedule.schedule_type == 'cron':
-            if not schedule.cron_expression:
-                return False
-            parts = schedule.cron_expression.split()
-            if len(parts) != 5:
-                return False
-            minute, hour, day_of_month, month_of_year, day_of_week = parts
-            crontab = CrontabSchedule.objects.create(
-                minute=minute, hour=hour, day_of_month=day_of_month,
-                month_of_year=month_of_year, day_of_week=day_of_week,
-                day_of_year='*', timezone='Asia/Shanghai',
-            )
-            PeriodicTask.objects.create(
-                name=f'schedule_{schedule.id}',
-                task=execute_schedule_task.name,
-                crontab=crontab,
-                args=f'[{schedule.id}]',
-                enabled=True,
-            )
-
-        elif schedule.schedule_type == 'interval':
-            if not schedule.interval_seconds:
-                return False
-            interval, _ = IntervalSchedule.objects.get_or_create(
-                every=schedule.interval_seconds,
-                period=IntervalSchedule.SECONDS,
-            )
-            PeriodicTask.objects.create(
-                name=f'schedule_{schedule.id}',
-                task=execute_schedule_task.name,
-                interval=interval,
-                args=f'[{schedule.id}]',
-                enabled=True,
-            )
-
-        elif schedule.schedule_type == 'once':
-            if not schedule.run_once_at:
-                return False
-            if schedule.run_once_at < timezone.now():
-                return False
-            crontab = CrontabSchedule.objects.create(
-                minute=str(schedule.run_once_at.minute),
-                hour=str(schedule.run_once_at.hour),
-                day_of_month=str(schedule.run_once_at.day),
-                month_of_year=str(schedule.run_once_at.month),
-                day_of_week='*', day_of_year='*',
-                timezone='Asia/Shanghai',
-            )
-            PeriodicTask.objects.create(
-                name=f'schedule_{schedule.id}',
-                task=execute_schedule_task.name,
-                crontab=crontab,
-                args=f'[{schedule.id}]',
-                enabled=True,
-                one_off=True,
-            )
-        else:
-            return False
-
-        schedule.save()
-        logger_schedule.info(f"Registered scheduled task schedule_id={schedule.id} type={schedule.schedule_type}")
-        return True
-
-    except Exception as e:
-        logger_schedule.error(f"Failed to register scheduled task schedule_id={schedule.id}: {str(e)}")
-        return False
+    """No-op: taurus-scheduler auto-discovers enabled Schedule records by polling the DB."""
+    logger_schedule.info(f"schedule_id={schedule.id} will be picked up by taurus-scheduler (status={schedule.status})")
+    return True
 
 
 def unregister_schedule_from_celery(schedule):
-    """Deregister Schedule record from Celery Beat"""
-    try:
-        from django_celery_beat.models import PeriodicTask
-        PeriodicTask.objects.filter(name=f'schedule_{schedule.id}').delete()
-        logger_schedule.info(f"Deregistered scheduled task schedule_id={schedule.id}")
-        return True
-    except Exception as e:
-        logger_schedule.error(f"Failed to deregister scheduled task schedule_id={schedule.id}: {str(e)}")
-        return False
+    """No-op: taurus-scheduler auto-discovers disabled/deleted Schedule records by polling the DB."""
+    logger_schedule.info(f"schedule_id={schedule.id} deregistered from taurus-scheduler polling")
+    return True
 
 
 class WorkflowViewSet(CustomModelViewSet):
@@ -2555,9 +2476,8 @@ class ScheduleViewSet(CustomModelViewSet):
         
         try:
             from taurus.tasks import execute_schedule_task
-            # 异步Execution
-            execute_schedule_task.delay(schedule.id)
-            return SuccessResponse(msg="Execution queued")
+            execute_schedule_task(schedule.id)
+            return SuccessResponse(msg="Execution triggered")
         except Exception as e:
             return ErrorResponse(msg=f"Execution failed: {str(e)}")
     

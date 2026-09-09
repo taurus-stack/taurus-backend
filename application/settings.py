@@ -188,6 +188,9 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 
+# Collect static files target directory (must differ from STATICFILES_DIRS)
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 MEDIA_ROOT = "media"  # Directory under project
 MEDIA_URL = "/media/"  # Similar to STATIC_URL, specifies the URL users can access files
 
@@ -196,9 +199,6 @@ STATICFILES_FINDERS = (
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder"
 )
-# Collect static files, must comment out MEDIA_ROOT and STATICFILES_DIRS first
-# python manage.py collectstatic
-# STATIC_ROOT=os.path.join(BASE_DIR,'static')
 
 # ================================================= #
 # ******************* CORS Config ******************* #

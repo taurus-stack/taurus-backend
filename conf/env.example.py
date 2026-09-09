@@ -32,15 +32,15 @@ def _decrypt_if_needed(value):
 # DATABASE_NAME = os.path.join(BASE_DIR, "db.sqlite3")
 
 # When using MySQL, modify this config
-DATABASE_ENGINE = "django.db.backends.mysql"
-DATABASE_NAME = 'taurus_backend'  # Used when using MySQL
+DATABASE_ENGINE = os.environ.get('DATABASE_ENGINE', 'django.db.backends.mysql')
+DATABASE_NAME = os.environ.get('DATABASE_NAME', 'taurus_backend')  # Used when using MySQL
 
 # Database address - change to your database address
-DATABASE_HOST = '127.0.0.1'
+DATABASE_HOST = os.environ.get('DATABASE_HOST', '127.0.0.1')
 # # Database port
-DATABASE_PORT = 3306
+DATABASE_PORT = int(os.environ.get('DATABASE_PORT', '3306'))
 # # Database username
-DATABASE_USER = "root"
+DATABASE_USER = os.environ.get('DATABASE_USER', 'root')
 # # Database password (supports encrypted format, auto-decrypted on startup)
 DATABASE_PASSWORD = _decrypt_if_needed(os.environ.get(
     'DATABASE_PASSWORD',
@@ -48,7 +48,7 @@ DATABASE_PASSWORD = _decrypt_if_needed(os.environ.get(
 ))
 
 # Table prefix
-TABLE_PREFIX = "taurus_"
+TABLE_PREFIX = os.environ.get('TABLE_PREFIX', 'taurus_')
 # ================================================= #
 # ******** Redis Config, can skip if no Redis  ******** #
 # ================================================= #
@@ -60,11 +60,11 @@ TABLE_PREFIX = "taurus_"
 # ================================================= #
 # ****************** Feature Toggles  ******************* #
 # ================================================= #
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'true').lower() == 'true'
 # Enable login detail fetching (calls API to fetch IP detailed address; if intranet, just disable)
-ENABLE_LOGIN_ANALYSIS_LOG = True
+ENABLE_LOGIN_ANALYSIS_LOG = os.environ.get('ENABLE_LOGIN_ANALYSIS_LOG', 'true').lower() == 'true'
 # Login interface /api/token/ does not require captcha auth, for testing; production environment recommends disabling
-LOGIN_NO_CAPTCHA_AUTH = True
+LOGIN_NO_CAPTCHA_AUTH = os.environ.get('LOGIN_NO_CAPTCHA_AUTH', 'true').lower() == 'true'
 
 # ================================================= #
 # ***************** Workflow Engine Config *************** #
@@ -120,7 +120,7 @@ DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'no-reply@example.com'
 # ****************** Other Config  ******************* #
 # ================================================= #
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*').split(',')
 # Exclude apps from column permissions
 COLUMN_EXCLUDE_APPS = []
 

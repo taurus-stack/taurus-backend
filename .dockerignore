@@ -1,0 +1,52 @@
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+*.egg
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Virtual env
+venv/
+.venv/
+env/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Project data (runtime generated)
+logs/
+media/
+staticfiles/
+*.log
+
+# Database
+*.sqlite3
+db.sqlite3
+
+# Certs (contain private keys, mount at runtime instead)
+certs/
+
+# Test & audit
+_audit_serializers.py
+del_migrations.py
+readme.txt
+
+# Docs
+docs/
+*.md
+
+# CI
+.github/
