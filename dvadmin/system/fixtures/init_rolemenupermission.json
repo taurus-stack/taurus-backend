@@ -1,6 +1,146 @@
 [
     {
         "role__key": "admin",
+        "menu__web_path": "/asset",
+        "menu__component_name": ""
+    },
+    {
+        "role__key": "admin",
+        "menu__web_path": "/ops/host/my",
+        "menu__component_name": "MyHost"
+    },
+    {
+        "role__key": "admin",
+        "menu__web_path": "/host/all",
+        "menu__component_name": "HostAll"
+    },
+    {
+        "role__key": "admin",
+        "menu__web_path": "/supervisor/log",
+        "menu__component_name": "supervisor-log"
+    },
+    {
+        "role__key": "admin",
+        "menu__web_path": "/supervisor/program",
+        "menu__component_name": "supervisor-program"
+    },
+    {
+        "role__key": "admin",
+        "menu__web_path": "/supervisor/registration-token",
+        "menu__component_name": "registration-token"
+    },
+    {
+        "role__key": "admin",
+        "menu__web_path": "/supervisor/program-install-config",
+        "menu__component_name": "program-install-config"
+    },
+    {
+        "role__key": "admin",
+        "menu__web_path": "/supervisor/program-command",
+        "menu__component_name": "program-command"
+    },
+    {
+        "role__key": "admin",
+        "menu__web_path": "/supervisor/program-install-policy",
+        "menu__component_name": "program-install-policy"
+    },
+    {
+        "role__key": "admin",
+        "menu__web_path": "/supervisor/heartbeat",
+        "menu__component_name": "heartbeat"
+    },
+    {
+        "role__key": "admin",
+        "menu__web_path": "/supervisor/heartbeat-server",
+        "menu__component_name": "heartbeat-server"
+    },
+    {
+        "role__key": "admin",
+        "menu__web_path": "/supervisor/program-install-template",
+        "menu__component_name": "program-install-template"
+    },
+    {
+        "role__key": "admin",
+        "menu__web_path": "/ops",
+        "menu__component_name": ""
+    },
+    {
+        "role__key": "admin",
+        "menu__web_path": "/ops/command",
+        "menu__component_name": "command"
+    },
+    {
+        "role__key": "admin",
+        "menu__web_path": "/ops/script",
+        "menu__component_name": "Script"
+    },
+    {
+        "role__key": "admin",
+        "menu__web_path": "/ops/script-library",
+        "menu__component_name": "script-library"
+    },
+    {
+        "role__key": "admin",
+        "menu__web_path": "/ops/execution-approval",
+        "menu__component_name": "execution-approval"
+    },
+    {
+        "role__key": "admin",
+        "menu__web_path": "/ops/history",
+        "menu__component_name": "History"
+    },
+    {
+        "role__key": "admin",
+        "menu__web_path": "/ops/script-approval",
+        "menu__component_name": "script-approval"
+    },
+    {
+        "role__key": "admin",
+        "menu__web_path": "/ops/script-check-rule",
+        "menu__component_name": "script-check-rule"
+    },
+    {
+        "role__key": "admin",
+        "menu__web_path": "/job",
+        "menu__component_name": ""
+    },
+    {
+        "role__key": "admin",
+        "menu__web_path": "/workflow/list",
+        "menu__component_name": "workflowList"
+    },
+    {
+        "role__key": "admin",
+        "menu__web_path": "/workflow/editor/:id",
+        "menu__component_name": "WorkflowEditor"
+    },
+    {
+        "role__key": "admin",
+        "menu__web_path": "/workflow/approval",
+        "menu__component_name": "WorkflowApproveList"
+    },
+    {
+        "role__key": "admin",
+        "menu__web_path": "/workflow/record",
+        "menu__component_name": "workflowRecordList"
+    },
+    {
+        "role__key": "admin",
+        "menu__web_path": "/workflow/record/:id",
+        "menu__component_name": "WorkflowRecordDetail"
+    },
+    {
+        "role__key": "admin",
+        "menu__web_path": "/taurus/task-center",
+        "menu__component_name": ""
+    },
+    {
+        "role__key": "admin",
+        "menu__web_path": "/taurus/task-center/my",
+        "menu__component_name": "task-center"
+    },
+    {
+        "role__key": "admin",
         "menu__web_path": "/system",
         "menu__component_name": ""
     },
@@ -8,5 +148,100 @@
         "role__key": "admin",
         "menu__web_path": "/menu",
         "menu__component_name": "menu"
+    },
+    {
+        "role__key": "admin",
+        "menu__web_path": "/dept",
+        "menu__component_name": "dept"
+    },
+    {
+        "role__key": "admin",
+        "menu__web_path": "/role",
+        "menu__component_name": "role"
+    },
+    {
+        "role__key": "admin",
+        "menu__web_path": "/user",
+        "menu__component_name": "user"
+    },
+    {
+        "role__key": "admin",
+        "menu__web_path": "/messageCenter",
+        "menu__component_name": "messageCenter"
+    },
+    {
+        "role__key": "admin",
+        "menu__web_path": "/apiWhiteList",
+        "menu__component_name": "whiteList"
+    },
+    {
+        "role__key": "admin",
+        "menu__web_path": "/generalConfig",
+        "menu__component_name": ""
+    },
+    {
+        "role__key": "admin",
+        "menu__web_path": "/config",
+        "menu__component_name": "config"
+    },
+    {
+        "role__key": "admin",
+        "menu__web_path": "/dictionary",
+        "menu__component_name": "dictionary"
+    },
+    {
+        "role__key": "admin",
+        "menu__web_path": "/areas",
+        "menu__component_name": "areas"
+    },
+    {
+        "role__key": "admin",
+        "menu__web_path": "/file",
+        "menu__component_name": "file"
+    },
+    {
+        "role__key": "admin",
+        "menu__web_path": "/log",
+        "menu__component_name": ""
+    },
+    {
+        "role__key": "admin",
+        "menu__web_path": "/loginLog",
+        "menu__component_name": "loginLog"
+    },
+    {
+        "role__key": "admin",
+        "menu__web_path": "/operationLog",
+        "menu__component_name": "operationLog"
+    },
+    {
+        "role__key": "public",
+        "menu__web_path": "/asset",
+        "menu__component_name": ""
+    },
+    {
+        "role__key": "public",
+        "menu__web_path": "/ops/host/my",
+        "menu__component_name": "MyHost"
+    },
+    {
+        "role__key": "public",
+        "menu__web_path": "/host/all",
+        "menu__component_name": "HostAll"
+    },
+    {
+        "role__key": "public",
+        "menu__web_path": "/ops",
+        "menu__component_name": ""
+    },
+    {
+        "role__key": "public",
+        "menu__web_path": "/ops/script",
+        "menu__component_name": "Script"
+    },
+    {
+        "role__key": "public",
+        "menu__web_path": "/ops/history",
+        "menu__component_name": "History"
     }
 ]
