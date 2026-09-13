@@ -10,7 +10,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
-import importlib.util
 import os
 import sys
 from datetime import timedelta
@@ -62,11 +61,6 @@ SECRET_KEY = "django-insecure--z8%exyzt7e_%i@1+#1mm=%lb5=^fx_57=1@a+_y7bg5-w%)sm
 # Initialize plugins path into environment variables
 PLUGINS_PATH = os.path.join(BASE_DIR, "plugins")
 sys.path.insert(0, os.path.join(PLUGINS_PATH))
-
-# taurus_ee 商业版包：物理剥离后客户通过 wheel 安装到 site-packages；
-# 开发阶段放在项目根目录，需要显式加进 sys.path.
-# 生产环境 wheel 安装后 ROOT_DIR 下不存在 taurus_ee，这行无害（不影响任何东西）。
-sys.path.insert(0, str(BASE_DIR.parent))
 
 [
     sys.path.insert(0, os.path.join(PLUGINS_PATH, ele))
@@ -527,32 +521,31 @@ TAURUS_AUTH_JWT_EXPIRES_MINUTES = locals().get('TAURUS_AUTH_JWT_EXPIRES_MINUTES'
 TAURUS_AUTH_SERVICE_ID = locals().get('TAURUS_AUTH_SERVICE_ID', 'taurus-backend')
 
 # ================================================= #
-# ********** Taurus Edition Gate (M1) ********** #
+# ********** Taurus 授权（License 分级）********** #
 # ================================================= #
-# · 取值：'community'(默认)  或  'enterprise'
-# · 优先级：环境变量 TAURUS_EDITION  >  conf/env.py 中定义 > 默认 community
-# · 切版本仅需改此值，然后 reload 进程即可（loader 有懒加载缓存，测试时用 reset_for_testing()）
-TAURUS_EDITION = os.getenv(
+# 新模型（全功能开源版）：不再区分 community/enterprise，
+# 所有部署同一全功能代码，License 仅决定主机配额与服务等级。
+#   · 无 License   → 免费版（max_hosts=50 + 社区服务等级）
+#   · 导入 License → starter/professional/enterprise/ultimate
+# TAURUS_EDITION 已废弃：设置仅会产生一条 warning，不影响任何行为。
+_legacy_edition = os.getenv(
     "TAURUS_EDITION",
-    locals().get("TAURUS_EDITION", "community"),
+    locals().get("TAURUS_EDITION", ""),
 ).strip().lower()
-if TAURUS_EDITION not in ("community", "enterprise"):  # 防御性兜底：非法值回退 community
+if _legacy_edition:
     import logging as _lg
     _lg.getLogger(__name__).warning(
-        "TAURUS_EDITION=%r 非法，已自动回退到 'community'",
-        os.getenv("TAURUS_EDITION") or locals().get("TAURUS_EDITION"),
+        "TAURUS_EDITION=%r 已废弃（全功能版本不再区分 edition），该设置将被忽略；"
+        "配额与服务等级请通过 License 文件控制（TAURUS_LICENSE_FILE）。",
+        _legacy_edition,
     )
-    TAURUS_EDITION = "community"
+TAURUS_EDITION = "community"
 
-# · 是否在 DRF Response Header 中暴露 X-Taurus-Edition（便于前端 / 调试识别）
+# · 是否在 DRF Response Header 中暴露 X-Taurus-Edition（兼容保留）
 TAURUS_EDITION_EXPOSE_HEADER = True
 
-# · 阶梯定价 Tier 覆盖（仅 EE 场景 License 未加载时使用；M4 后 License 会覆盖掉它）
-#   可选值: starter / professional / enterprise / ultimate
-TAURUS_EE_DEFAULT_TIER = os.getenv(
-    "TAURUS_EE_DEFAULT_TIER",
-    locals().get("TAURUS_EE_DEFAULT_TIER", "professional"),
-)
+# · License 默认搜索路径之外的覆盖项仍由 taurus_ee/license.py 读取
+#   （TAURUS_LICENSE_FILE 环境变量 / /etc/taurus/license.lic 等）
 
 # System config
 SYSTEM_CONFIG = {}
@@ -581,9 +574,8 @@ PLUGINS_URL_PATTERNS = []
 
 My_Apps = [
     'taurus',
-    # taurus_ee 可选安装：物理剥离后 CE 仓库不含此目录。
-    # 条件化让 Django 在 taurus_ee 缺失时仍能正常启动（Thin Wrapper 走 ee_fallback stub）。
-    *(["taurus_ee"] if importlib.util.find_spec("taurus_ee") else []),
+    # taurus_ee 全功能模块已并入开源仓库（单 Schema，模型仍在 taurus app），常驻启用。
+    'taurus_ee',
     'django_celery_beat',
 ]
 

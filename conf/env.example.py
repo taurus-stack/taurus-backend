@@ -67,6 +67,21 @@ ENABLE_LOGIN_ANALYSIS_LOG = os.environ.get('ENABLE_LOGIN_ANALYSIS_LOG', 'true').
 LOGIN_NO_CAPTCHA_AUTH = os.environ.get('LOGIN_NO_CAPTCHA_AUTH', 'true').lower() == 'true'
 
 # ================================================= #
+# ****************** License Config  ******************* #
+# ================================================= #
+# Single fully-featured edition: without a License the system runs as the free
+# tier (all features unlocked, max 50 managed hosts, community support level).
+# Import a commercial License via: python manage.py license_import <file>
+# Optional explicit License file path (auto-discovered otherwise from
+# /etc/taurus/license.lic, /opt/taurus/license.lic, ~/.taurus/license.lic, ./license.lic)
+TAURUS_LICENSE_FILE = os.environ.get('TAURUS_LICENSE_FILE', '')
+# DEV ONLY: any truthy value bypasses License verification with professional
+# entitlements. Never enable in production.
+TAURUS_DEV_BYPASS_LICENSE = os.environ.get('TAURUS_DEV_BYPASS_LICENSE', '')
+# Note: the legacy TAURUS_EDITION variable is deprecated and ignored — there is
+# no community/enterprise code split anymore.
+
+# ================================================= #
 # ***************** Workflow Engine Config *************** #
 # ================================================= #
 # List of ExecutableUnit adapters auto-imported on startup (just specify module path, triggers their @register_unit_adapter decorator)

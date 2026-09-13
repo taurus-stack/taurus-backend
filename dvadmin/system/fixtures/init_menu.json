@@ -746,6 +746,23 @@
                 "menu_field": []
             },
             {
+                "name": "License & Service",
+                "icon": "iconfont icon-system",
+                "sort": 2,
+                "is_link": false,
+                "is_catalog": false,
+                "web_path": "/license",
+                "component": "system/license/index",
+                "component_name": "license",
+                "status": true,
+                "cache": false,
+                "visible": true,
+                "parent": 8,
+                "children": [],
+                "menu_button": [],
+                "menu_field": []
+            },
+            {
                 "name": "Dictionary Management",
                 "icon": "iconfont icon-dict",
                 "sort": 1,

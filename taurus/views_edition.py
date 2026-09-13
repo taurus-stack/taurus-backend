@@ -1,12 +1,13 @@
 """
-M1.4 — Edition Gate 专用 API。
+Edition / License 专用 API。
 
 对外 3 个接口（允许匿名访问 edition/info，前端 bootstrap 时即要拿到）：
-    GET /api/taurus/edition/info       →   edition + tier + features + quota + license 完整信息
+    GET /api/taurus/edition/info       →   tier + 全集 features + quota + License 四态
+                                           + 服务等级权益（branding/update_channels/service_level）
     GET /api/taurus/edition/features   →   精简版：仅 edition + features[]
-    GET /api/taurus/edition/describe   →   FeatureCode → 中文描述映射表（UI 升级卡片使用）
+    GET /api/taurus/edition/describe   →   FeatureCode → 中文描述映射表（UI 文案使用）
 
-注意：此 API 不做 EditionGate.require_feature 装饰（它本身就是给前端判断 Edition 的基础）。
+全功能版本下 features 恒为全集，前端以 tier / license.state / quota 作为展示与配额判断依据。
 """
 
 from __future__ import annotations
@@ -28,7 +29,7 @@ class EditionInfoView(APIView):
     def get(self, request):
         gate = get_edition()
         data = gate.info_payload()
-        # 附加 Feature 分组（便于前端升级卡片快速展示"CE vs EE 对比矩阵"）
+        # 附加 Feature 分组（全功能版本 in_edition 恒为 true，字段保留供前端分组渲染）
         data["feature_groups"] = [
             {"group": grp, "items": [{"code": c, "name": n, "in_edition": c in data["features"]}
                                      for c, n in mapping.items()]}

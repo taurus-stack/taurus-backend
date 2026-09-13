@@ -1475,7 +1475,7 @@ def _get_workflow_dag_service_or_none(feature_code: str | None = None):
         from taurus.editions.loader import has_feature as _has_feature
         if feature_code is not None and not _has_feature(feature_code):
             return None
-        from taurus_ee.utils.registry import ee_registry as _ee_registry
+        from taurus.ee_registry import ee_registry as _ee_registry
     except Exception:
         return None
     try:
