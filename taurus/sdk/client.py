@@ -439,15 +439,16 @@ class TaurusClient:
             await self.channel.close()
 
     async def execute_command(
-        self, 
-        command: str, 
-        args: Optional[list[str]] = None, 
-        timeout: int = 30, 
-        environment: Optional[dict] = None, 
-        merge_streams: bool = False, 
-        shell: bool = False, 
+        self,
+        command: str,
+        args: Optional[list[str]] = None,
+        timeout: int = 30,
+        environment: Optional[dict] = None,
+        merge_streams: bool = False,
+        shell: bool = False,
         load_profile: str = "false",
-        working_directory: Optional[str] = None
+        working_directory: Optional[str] = None,
+        execution_id: Optional[str] = None,
     ) -> AsyncGenerator[dict, None]:
         """
         ExecutionCommand并流式returnOutput
@@ -485,6 +486,8 @@ class TaurusClient:
             request.environment["__TAURUS_USE_SHELL__"] = "true"
         if load_profile and load_profile != "false":
             request.environment["__TAURUS_LOAD_PROFILE__"] = load_profile
+        if execution_id:
+            request.environment["__TAURUS_EXECUTION_ID__"] = execution_id
 
         # 发起调用
         response_stream = self.stub.ExecuteCommand(request, metadata=self.metadata)

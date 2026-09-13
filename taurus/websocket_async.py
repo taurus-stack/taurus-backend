@@ -811,6 +811,7 @@ async def _execute_ops_async(execution_id: str):
                         merge_streams=exec_info['merge_streams'],
                         load_profile=exec_info.get('load_profile', 'false'),
                         working_directory=exec_info['working_directory'] or None,
+                        execution_id=execution_id,
                     ):
                         sanitized = sanitize_chunk(chunk)
                         output_buffer.append(sanitized)
@@ -848,6 +849,7 @@ async def _execute_ops_async(execution_id: str):
                             working_directory=exec_info.get('working_directory') or None,
                             load_profile=exec_info.get('load_profile', 'false') if exec_info['script_type'] == 'sh' else 'false',
                             merge_streams=exec_info['merge_streams'],
+                            execution_id=execution_id,
                         ):
                             sanitized = sanitize_chunk(chunk)
                             output_buffer.append(sanitized)

@@ -1,13 +1,2 @@
-V	270625132822Z		01	unknown	/C=CN/ST=Beijing/L=Beijing/O=OrionOps/CN=jwj-HP-Z4-G4-Workstation
-V	270625132919Z		02	unknown	/C=CN/ST=Beijing/L=Beijing/O=OrionOps/CN=orion-sdk
-V	270625133439Z		03	unknown	/C=CN/ST=Beijing/L=Beijing/O=OrionOps/CN=orion-sdk
-V	270626011025Z		04	unknown	/C=CN/ST=Beijing/L=Beijing/O=OrionOps/CN=jwj-HP-Z6-G4-Workstation
-V	270626015810Z		05	unknown	/C=CN/ST=Beijing/L=Beijing/O=OrionOps/CN=jwj-HP-Z6-G4-Workstation
-V	270626125000Z		06	unknown	/C=CN/ST=Beijing/L=Beijing/O=OrionOps/CN=jwj-HP-Z4-G4-Workstation
-V	270701233535Z		07	unknown	/C=CN/ST=Beijing/L=Beijing/O=TaurusOps/CN=jwj-HP-Z4-G4-Workstation
-V	270702083454Z		08	unknown	/C=CN/ST=Beijing/L=Beijing/O=TaurusOps/CN=jwj-HP-Z6-G4-Workstation
-V	270702085647Z		09	unknown	/C=CN/ST=Beijing/L=Beijing/O=TaurusOps/CN=webui-client
-V	270702113246Z		0A	unknown	/C=CN/ST=Beijing/L=Beijing/O=TaurusOps/CN=webui-client
-V	270706003713Z		0B	unknown	/C=CN/ST=Beijing/L=Beijing/O=TaurusOps/CN=taurus-sdk-client
-V	270711040025Z		0C	unknown	/C=CN/ST=Beijing/L=Beijing/O=TaurusOps/CN=jwj-HP-Z4-G4-Workstation
-V	270713011043Z		0D	unknown	/C=CN/ST=Beijing/L=Beijing/O=TaurusOps/CN=jwj-HP-Z6-G4-Workstation
+V	270912042454Z		01	unknown	/C=CN/ST=Beijing/L=Beijing/O=TaurusOps/CN=92b90cff34c3
+V	360909062057Z		02	unknown	/C=CN/ST=Beijing/L=Beijing/O=TaurusOps/CN=taurus-sdk-client

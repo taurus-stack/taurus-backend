@@ -30,7 +30,7 @@ COPY . .
 RUN if [ -f conf/env.example.py ] && [ ! -f conf/env.py ]; then cp conf/env.example.py conf/env.py; fi
 
 RUN useradd -m -u 1000 taurus \
-    && mkdir -p /app/logs /app/media /app/staticfiles \
+    && mkdir -p /app/logs /app/media /app/staticfiles /app/certs /app/certs/newcerts \
     && chmod +x /app/docker-entrypoint.sh \
     && chown -R taurus:taurus /app
 

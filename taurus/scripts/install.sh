@@ -225,7 +225,12 @@ check_connectivity
 log_step "收集主机信息..."
 
 HOSTNAME=$(hostname)
-IP_ADDR=$(hostname -I 2>/dev/null | awk '{print $1}' || hostname -i 2>/dev/null | awk '{print $1}' || echo "unknown")
+if [[ -n "${TAURUS_HOST_IP:-}" ]]; then
+    IP_ADDR="$TAURUS_HOST_IP"
+    log_info "  使用 TAURUS_HOST_IP 覆盖: $IP_ADDR"
+else
+    IP_ADDR=$(hostname -I 2>/dev/null | awk '{print $1}' || hostname -i 2>/dev/null | awk '{print $1}' || echo "unknown")
+fi
 OS_TYPE=$(uname -s | tr '[:upper:]' '[:lower:]')
 ARCH=$(uname -m)
 OS_VERSION=$(cat /etc/os-release 2>/dev/null | grep '^PRETTY_NAME=' | cut -d'"' -f2 || uname -r)
