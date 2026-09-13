@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "taurus-ee"
+version = "1.0.0"
+description = "Taurus Ops extended modules (approval/DAG/share/license/official scripts)"
+authors = ["Taurus <dev@taurus.local>"]
+license = "AGPL-3.0-or-later"
+packages = [{ include = "*", to = "taurus_ee" }]
+include = [
+    "official_scripts/**/*.sh",
+    "official_scripts/**/*.py",
+]
+
+[tool.poetry.dependencies]
+python = ">=3.8"
+django = ">=3.2"
+cryptography = ">=38.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
