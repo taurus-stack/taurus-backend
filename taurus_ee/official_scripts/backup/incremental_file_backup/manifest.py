@@ -1,0 +1,20 @@
+"""Script metadata. Sync official_version after modifying fields."""
+
+MANIFEST = {   'name': 'Incremental File/Dir Backup',
+    'script_type': 'Shell',
+    'category_name': 'Backup & Recovery',
+    'tags': '备份,文件,rsync',
+    'desc': '使用rsync进行目录增量备份，支持远程同步和本地备份，自动创建快照目录。',
+    'supported_systems': 'CentOS 7+,Ubuntu 18.04+',
+    'risk_level': 'low',
+    'official_version': 'v1.0.0',
+    'license_type': 'MIT',
+    'changelog': 'v1.0.0 initial version',
+    'timeout': 3600,
+    'script_params': [   {'key': 'source_dir', 'value': '/data', 'desc': '源目录', 'type': 'string'},
+                         {   'key': 'backup_dir',
+                             'value': '/backup',
+                             'desc': 'Backup directory',
+                             'type': 'string'},
+                         {'key': 'keep_count', 'value': '7', 'desc': '保留备份数量', 'type': 'number'}],
+    'edition_scope': 'enterprise'}

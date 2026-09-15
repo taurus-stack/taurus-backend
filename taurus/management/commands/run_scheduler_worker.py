@@ -51,6 +51,11 @@ class Command(BaseCommand):
             help="Redis workflow queue key",
         )
         parser.add_argument(
+            "--maintenance-queue",
+            default=os.environ.get("TAURUS_SCHEDULER_MAINTENANCE_QUEUE", "taurus:scheduler:queue:maintenance"),
+            help="Redis maintenance queue key (heartbeat check, record cleanup)",
+        )
+        parser.add_argument(
             "--redis-url",
             default=os.environ.get("REDIS_URL_SCHEDULER") or self._default_redis_url(),
             help="Redis connection URL",
@@ -156,6 +161,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         self.queue_key = options["queue"]
         self.workflow_queue_key = options.get("workflow_queue")
+        self.maintenance_queue_key = options.get("maintenance_queue")
         raw_url = options["redis_url"]
         self.redis_url = Command._ensure_redis_password(raw_url)
         self.concurrency = max(1, options["workers"])
@@ -173,6 +179,8 @@ class Command(BaseCommand):
             "scheduler_worker.started",
             extra={
                 "queue": self.queue_key,
+                "workflow_queue": self.workflow_queue_key,
+                "maintenance_queue": self.maintenance_queue_key,
                 "redis": masked_url,
                 "concurrency": self.concurrency,
                 "prefetch": self.prefetch,
@@ -182,6 +190,8 @@ class Command(BaseCommand):
         self.stdout.write(
             self.style.SUCCESS(
                 f"[SchedulerWorker] started queue={self.queue_key} "
+                f"workflow_queue={self.workflow_queue_key} "
+                f"maintenance_queue={self.maintenance_queue_key} "
                 f"redis={masked_url} "
                 f"concurrency={self.concurrency} prefetch={self.prefetch} "
                 f"poll_interval={self.poll_interval}s"
@@ -239,6 +249,8 @@ class Command(BaseCommand):
         queues = [self.queue_key]
         if self.workflow_queue_key and self.workflow_queue_key != self.queue_key:
             queues.append(self.workflow_queue_key)
+        if self.maintenance_queue_key and self.maintenance_queue_key not in queues:
+            queues.append(self.maintenance_queue_key)
 
         async def _handle_one(payload_raw: str):
             async with semaphore:
@@ -259,7 +271,12 @@ class Command(BaseCommand):
                         continue
                     _, raw = result
                     queue_name = result[0]
-                    label = "Workflow" if queue_name == self.workflow_queue_key else "ScriptTask"
+                    if queue_name == self.workflow_queue_key:
+                        label = "Workflow"
+                    elif queue_name == self.maintenance_queue_key:
+                        label = "Maintenance"
+                    else:
+                        label = "ScriptTask"
                     remaining = self.redis.llen(queue_name)
                     self.stdout.write(
                         self.style.MIGRATE_HEADING(
@@ -392,8 +409,103 @@ class Command(BaseCommand):
 
         if target_type == "workflow":
             self._process_workflow_payload_sync(payload)
+        elif target_type == "schedule":
+            self._process_schedule_payload_sync(payload)
+        elif target_type == "maintenance":
+            self._process_maintenance_payload_sync(payload)
         else:
             self._process_script_task_payload_sync(payload)
+
+    def _process_schedule_payload_sync(self, payload: dict) -> None:
+        """Legacy Schedule execution: call taurus.tasks.execute_schedule_task(schedule_id)."""
+        schedule_id = int(payload.get("schedule_id") or 0)
+        if not schedule_id:
+            logger.error("worker.no_schedule_id", extra={"payload": payload})
+            self.stdout.write(
+                self.style.ERROR("[SchedulerWorker] ✗ schedule payload missing schedule_id, discarded")
+            )
+            return
+
+        logger.info("worker.processing_schedule",
+                    extra={"schedule_id": schedule_id, "name": payload.get("name")})
+        self.stdout.write(
+            self.style.MIGRATE_LABEL(
+                f"[SchedulerWorker] → Processing Schedule id={schedule_id} "
+                f"name={(payload.get('name') or '')[:40]}"
+            )
+        )
+
+        try:
+            from taurus.tasks import execute_schedule_task
+            execute_schedule_task(schedule_id)
+            logger.info("worker.schedule_dispatched", extra={"schedule_id": schedule_id})
+            self.stdout.write(
+                self.style.SUCCESS(f"[SchedulerWorker] ✓ Schedule id={schedule_id} executed")
+            )
+        except Exception as e:
+            logger.exception("worker.schedule_process_error",
+                             extra={"schedule_id": schedule_id, "error": str(e)})
+            self.stdout.write(
+                self.style.ERROR(
+                    f"[SchedulerWorker] ✗ schedule_id={schedule_id} processing exception "
+                    f"{type(e).__name__}: {str(e)[:150]}"
+                )
+            )
+
+    def _process_maintenance_payload_sync(self, payload: dict) -> None:
+        """Maintenance jobs: heartbeat timeout check + old heartbeat record cleanup."""
+        task_name = payload.get("task_name") or ""
+        params = payload.get("params") or {}
+        if not task_name:
+            logger.error("worker.no_maintenance_task_name", extra={"payload": payload})
+            self.stdout.write(
+                self.style.ERROR("[SchedulerWorker] ✗ maintenance payload missing task_name, discarded")
+            )
+            return
+
+        logger.info("worker.processing_maintenance",
+                    extra={"task_name": task_name, "params": params})
+        self.stdout.write(
+            self.style.MIGRATE_LABEL(
+                f"[SchedulerWorker] → Maintenance task={task_name}"
+            )
+        )
+
+        try:
+            from taurus.tasks import check_host_heartbeat_timeout, cleanup_old_heartbeat_records
+            if task_name == "check_host_heartbeat_timeout":
+                result = check_host_heartbeat_timeout()
+                logger.info("worker.maintenance_done",
+                            extra={"task_name": task_name, "result": result})
+                self.stdout.write(
+                    self.style.SUCCESS(
+                        f"[SchedulerWorker] ✓ {task_name}: offline_count={result.get('offline_count', 0)}"
+                    )
+                )
+            elif task_name == "cleanup_old_heartbeat_records":
+                days = int(params.get("days") or 30)
+                result = cleanup_old_heartbeat_records(days=days)
+                logger.info("worker.maintenance_done",
+                            extra={"task_name": task_name, "result": result})
+                self.stdout.write(
+                    self.style.SUCCESS(
+                        f"[SchedulerWorker] ✓ {task_name}: deleted={result.get('deleted_count', 0)}"
+                    )
+                )
+            else:
+                logger.warning("worker.unknown_maintenance_task", extra={"task_name": task_name})
+                self.stdout.write(
+                    self.style.WARNING(f"[SchedulerWorker] ⚠ unknown maintenance task: {task_name}")
+                )
+        except Exception as e:
+            logger.exception("worker.maintenance_process_error",
+                             extra={"task_name": task_name, "error": str(e)})
+            self.stdout.write(
+                self.style.ERROR(
+                    f"[SchedulerWorker] ✗ maintenance task={task_name} exception "
+                    f"{type(e).__name__}: {str(e)[:150]}"
+                )
+            )
 
     def _process_workflow_payload_sync(self, payload: dict) -> None:
         wf_info = payload.get("workflow") or {}

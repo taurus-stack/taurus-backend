@@ -291,3 +291,71 @@ authorityKeyIdentifier = keyid,issuer
         if not self.serial_file.exists():
             return None
         return self.serial_file.read_text().strip()
+
+    def ensure_sdk_client_cert(self, days: int = 3650) -> bool:
+        """
+        确确保 SDK 客户端证书(client.crt/client.key)存在, if不存在则自动Generate.
+
+        后端作为 gRPC Client连接 executor 时需要 mTLS 客户端Certificate,
+        此方法在 CA Certificate基础上签发一张 SDK 专用客户端Certificate.
+
+        Args:
+            days: 客户端Certificate有效期(天), 默认 3650(10年), Match CA 有效期
+
+        Returns:
+            YesNoEnsureSuccess
+        """
+        client_cert = self.ca_dir / "client.crt"
+        client_key = self.ca_dir / "client.key"
+
+        if client_cert.exists() and client_key.exists():
+            logger.info("SDK client certificate already exists: %s", self.ca_dir)
+            return True
+
+        if not self.ensure_ca_exists():
+            logger.error("CA certificate not found, cannot generate SDK client certificate")
+            return False
+
+        try:
+            logger.info("Generating SDK client certificate...")
+
+            # 1. Generate客户端Private key
+            result = subprocess.run(
+                ["openssl", "genrsa", "-out", str(client_key), "2048"],
+                capture_output=True, text=True, timeout=30
+            )
+            if result.returncode != 0:
+                logger.error("Failed to generate SDK client private key: %s", result.stderr)
+                return False
+            os.chmod(client_key, 0o600)
+
+            # 2. Generate CSR
+            csr_file = self.ca_dir / "sdk_client.csr"
+            result = subprocess.run(
+                [
+                    "openssl", "req", "-new",
+                    "-key", str(client_key),
+                    "-out", str(csr_file),
+                    "-subj", "/C=CN/ST=Beijing/L=Beijing/O=TaurusOps/CN=taurus-sdk-client",
+                ],
+                capture_output=True, text=True, timeout=30
+            )
+            if result.returncode != 0:
+                logger.error("Failed to generate SDK client CSR: %s", result.stderr)
+                return False
+
+            # 3. 用 CA 签署 CSR
+            signed_cert = self.sign_csr(csr_file.read_text(), days=days)
+            csr_file.unlink(missing_ok=True)
+
+            if not signed_cert:
+                logger.error("Failed to sign SDK client certificate")
+                return False
+
+            client_cert.write_text(signed_cert)
+            logger.info("SDK client certificate generated successfully: %s", client_cert)
+            return True
+
+        except Exception as e:
+            logger.error("Exception generating SDK client certificate: %s", str(e))
+            return False

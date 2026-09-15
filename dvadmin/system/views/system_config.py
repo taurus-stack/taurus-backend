@@ -19,6 +19,7 @@ from dvadmin.utils.models import get_all_models_objects
 from dvadmin.utils.serializers import CustomModelSerializer
 from dvadmin.utils.validator import CustomValidationError
 from dvadmin.utils.viewset import CustomModelViewSet
+from taurus.editions import BRANDING_CONFIG_KEYS, enforce_branding_config
 
 
 class SystemConfigCreateSerializer(CustomModelSerializer):
@@ -127,8 +128,20 @@ class SystemConfigViewSet(CustomModelViewSet):
     def save_content(self, request):
         body = request.data
         data_mapping = {item['id']: item for item in body}
+        # --- 白标强校验：仅拦截值实际发生变化的品牌键（整表保存会顺带携带未改的品牌项）---
+        instance_map = {}
+        changed_brand_keys = set()
         for obj_id, data in data_mapping.items():
             instance_obj = SystemConfig.objects.filter(id=obj_id).first()
+            instance_map[obj_id] = instance_obj
+            key = data.get('key') if instance_obj is None else instance_obj.key
+            if key in BRANDING_CONFIG_KEYS:
+                current_value = instance_obj.value if instance_obj is not None else None
+                if data.get('value') != current_value:
+                    changed_brand_keys.add(key)
+        enforce_branding_config(changed_brand_keys)
+        for obj_id, data in data_mapping.items():
+            instance_obj = instance_map.get(obj_id)
             if instance_obj is None:
                 # return SystemConfig.objects.create(**data)
                 serializer = SystemConfigCreateSerializer(data=data)
@@ -137,6 +150,19 @@ class SystemConfigViewSet(CustomModelViewSet):
             if serializer.is_valid(raise_exception=True):
                 serializer.save()
         return DetailResponse(msg="Saved successfully")
+
+    def create(self, request, *args, **kwargs):
+        # 白标强校验：新建品牌配置项即视为白标定制
+        enforce_branding_config({request.data.get('key')})
+        return super().create(request, *args, **kwargs)
+
+    def update(self, request, *args, **kwargs):
+        # 白标强校验：品牌项 value 实际变化时拦截（partial_update 同样走此方法）
+        instance = self.get_object()
+        if instance.key in BRANDING_CONFIG_KEYS and 'value' in request.data:
+            if request.data.get('value') != instance.value:
+                enforce_branding_config({instance.key})
+        return super().update(request, *args, **kwargs)
 
     def get_association_table(self, request):
         """

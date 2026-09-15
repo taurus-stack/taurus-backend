@@ -14,8 +14,9 @@ Taurus Stack Edition Gate (M1).
 from .loader import (
     get_edition, EditionGate, has_feature, require_feature,
     get_quota, is_over_quota, check_quota, evict_to_quota,
+    enforce_branding_config,
 )
-from .features import describe_feature  # 供前端 FeatureCode 中文描述表、403 错误文案等处使用
+from .features import BRANDING_CONFIG_KEYS, describe_feature
 
 __all__ = [
     "get_edition",
@@ -26,5 +27,7 @@ __all__ = [
     "is_over_quota",
     "check_quota",
     "evict_to_quota",
+    "enforce_branding_config",
+    "BRANDING_CONFIG_KEYS",
     "describe_feature",
 ]

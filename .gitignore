@@ -25,9 +25,6 @@ conf/env.py
 *.env.local
 !*.env.example.py
 
-# ========== 🔒 SECURITY — License 商业版 ==========
-taurus_ee/
-
 # ========== 运行时 ==========
 nohup.out
 *.log
@@ -52,9 +49,6 @@ main.py
 
 # scripts/ 下的临时迁移脚本
 scripts/migrate_official_scripts.py
-
-# ========== Django plugins 软链接 ==========
-plugins/taurus_ee
 
 # ========== 前端构建产物 ==========
 backend/templates/web/assets/

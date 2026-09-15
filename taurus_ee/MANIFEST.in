@@ -1,0 +1,2 @@
+include *.toml
+recursive-include taurus_ee/official_scripts *.sh *.py

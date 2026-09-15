@@ -1,14 +1,13 @@
 """
 Scheduled task execution service
+Tasks are dispatched by taurus-scheduler via Redis queue and consumed by run_scheduler_worker.
 """
 import logging
-from celery import shared_task
 from django.utils import timezone
 
 logger = logging.getLogger(__name__)
 
 
-@shared_task
 def execute_schedule_task(schedule_id):
     """
     Execute scheduled task
@@ -204,7 +203,6 @@ def _execute_workflow(schedule, execution):
         }
 
 
-@shared_task
 def check_host_heartbeat_timeout():
     """
     Check host heartbeat timeout, mark timed-out hosts as offline
@@ -235,7 +233,6 @@ def check_host_heartbeat_timeout():
     return {'offline_count': count}
 
 
-@shared_task
 def cleanup_old_heartbeat_records(days=30):
     """
     Clean up old heartbeat records, keep recent N days of data

@@ -12,7 +12,6 @@
             "program": "${workspaceFolder}/manage.py",
             "env": {
                 "DJANGO_SETTINGS_MODULE": "application.settings",
-                "TAURUS_EDITION": "enterprise",
                 "TAURUS_DEV_BYPASS_LICENSE": "1"
             },
             "args": [

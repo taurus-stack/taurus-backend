@@ -20,6 +20,11 @@ import pytest
 from taurus.workflow.engine.registry import get_registry
 from taurus.workflow.engine.schemas import RenderedNodeConfig
 
+# 该脚本在模块导入期替换 sys.modules["taurus.models"] 且不恢复（设计为
+# `python tests/workflow/test_workflow_scheduler_mock.py` 独立运行的 unittest 脚本），
+# 被 pytest 收集会污染同进程内所有后续用例，故整包收集时排除它。
+collect_ignore = ["test_workflow_scheduler_mock.py"]
+
 
 @pytest.fixture(scope="session")
 def all_adapter_types() -> list[str]:

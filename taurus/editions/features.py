@@ -10,7 +10,7 @@ M1.1 — FeatureCode 完整枚举清单（单一事实来源）。
 
 from __future__ import annotations
 
-from typing import Dict, FrozenSet, Literal
+from typing import Any, Dict, FrozenSet, Literal
 
 # =========================================================================
 # 1. Feature Code 全集（每一条都必须与 CE/EE 划分矩阵严格对齐）
@@ -219,27 +219,27 @@ FEATURE_GROUPS: Dict[str, Dict[str, str]] = {
 # 3. 阶梯定价配额（Quota）定义
 # =========================================================================
 
-# Edition 名
-EditionName = Literal["community", "enterprise"]
+# Edition 名（TAURUS_EDITION 已废弃，单一版本恒为 "community"）
+EditionName = Literal["community"]
 
-# 商业版阶梯 Tier（仅 EE 有，CE 固定为 "community" tier）
+# 服务等级阶梯 Tier（由 License 决定；无 License 的免费版固定为 "community"）
 TierName = Literal["community", "starter", "professional", "enterprise", "ultimate"]
 
 
 class QuotaDefaults:
     """
     各 Tier 默认配额（作为 License 字段未指定时的 fallback；
-    CE 固定取 COMMUNITY；EE 按 License.tier 字段匹配下表）。
+    free/blocked 态取 COMMUNITY，licensed/grace 按 License.tier 匹配下表）。
     """
 
-    # 社区版：完全免费，限制规模促进付费转化
+    # 社区版：完全免费，全功能，仅限制托管主机规模促进付费转化
     COMMUNITY: Dict[str, int | None] = {
-        "max_hosts": 50,          # 最多 50 台托管主机
-        "max_users": 10,          # 最多 10 个用户账号
-        "max_scheduled_tasks": 20,  # Schedule + ScriptTask 总计 ≤ 20 条
-        "max_script_versions_per_script": 3,  # 每个脚本最多 3 个历史版本
-        "max_concurrent_executions": 10,       # 最大并发执行数
-        "max_workflows": 10,      # 最多 10 条工作流（DAG + 线性）
+        "max_hosts": 50,          # 最多 50 台托管主机（唯一硬限制）
+        "max_users": None,        # 以下全部不限制
+        "max_scheduled_tasks": None,
+        "max_script_versions_per_script": None,
+        "max_concurrent_executions": None,
+        "max_workflows": None,
     }
 
     # 商业版 Starter（入门）
@@ -291,6 +291,84 @@ class QuotaDefaults:
             "enterprise": cls.ENTERPRISE,
             "ultimate": cls.ULTIMATE,
         }[tier]
+
+
+# =========================================================================
+# 3.5 服务等级权益（Service-Level Entitlements）
+# =========================================================================
+# License 只决定配额与服务等级，不再决定功能开关。
+#   · branding_allowed : 是否允许白标定制（系统名/Logo/登录页/页脚版权）
+#   · update_channels  : 可获取的版本升级通道
+#   · support          : 服务等级展示信息（名称/SLA/支持渠道），供授权页渲染
+# =========================================================================
+
+TIER_ENTITLEMENTS: Dict[str, Dict[str, Any]] = {
+    "community": {
+        "branding_allowed": False,
+        "update_channels": ["stable"],
+        "support": {
+            "level": "社区支持",
+            "sla": "社区互助，无商业 SLA",
+            "channels": ["官方文档", "GitHub 社区"],
+        },
+    },
+    "starter": {
+        "branding_allowed": False,
+        "update_channels": ["stable"],
+        "support": {
+            "level": "标准支持",
+            "sla": "工单支持，2 个工作日内响应",
+            "channels": ["邮件工单"],
+        },
+    },
+    "professional": {
+        "branding_allowed": True,
+        "update_channels": ["stable", "lts"],
+        "support": {
+            "level": "专业支持",
+            "sla": "工单支持，工作日 4 小时内响应",
+            "channels": ["邮件工单", "专属支持群"],
+        },
+    },
+    "enterprise": {
+        "branding_allowed": True,
+        "update_channels": ["stable", "lts", "hotfix"],
+        "support": {
+            "level": "企业支持",
+            "sla": "7×24 小时，1 小时内响应",
+            "channels": ["专属支持群", "7×24 热线"],
+        },
+    },
+    "ultimate": {
+        "branding_allowed": True,
+        "update_channels": ["stable", "lts", "hotfix", "preview"],
+        "support": {
+            "level": "旗舰支持",
+            "sla": "专属技术经理（TAM），7×24 小时贴身保障",
+            "channels": ["专属 TAM", "7×24 热线", "现场支持"],
+        },
+    },
+}
+
+
+# License 过期后的宽限天数：grace 期内功能与配额不变，仅告警；超期进入 blocked
+LICENSE_GRACE_DAYS = 30
+
+
+# 白标定制受管控的 SystemConfig.key 集合：
+# branding_allowed=False（community/starter）时禁止修改这些配置项。
+# 前端系统配置页据此禁用表单项，后端在配置保存接口做强校验。
+BRANDING_CONFIG_KEYS = frozenset({
+    # 以 dvadmin SystemConfig 实际配置键为准
+    "web_title",          # 站点名称（导航栏/浏览器标题，base 分组）
+    "web_favicon",        # 站点图标（base 分组）
+    "site_title",         # 登录页站点标题（login 分组）
+    "site_name",          # 登录页站点名称（login 分组）
+    "site_logo",          # 登录页 Logo（login 分组）
+    "login_background",   # 登录页背景（login 分组）
+    "copyright",          # 版权信息（login 分组）
+    "keep_record",        # ICP 备案信息（login 分组）
+})
 
 
 # =========================================================================
